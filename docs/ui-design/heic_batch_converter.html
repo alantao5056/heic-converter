@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEIC Batch Converter</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary:   #ffffff;
+    --bg-secondary: #f3f3f0;
+    --text-primary:   #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-tertiary:  #888780;
+    --border-light: rgba(0,0,0,0.12);
+    --border-mid:   rgba(0,0,0,0.22);
+    --accent:       #185FA5;
+    --accent-light: #E6F1FB;
+    --accent-btn:   #2E86C1;
+    --green-bg: #EAF3DE; --green-text: #3B6D11;
+    --amber-bg: #FAEEDA; --amber-text: #854F0B;
+    --red-bg:   #FCEBEB; --red-text:   #A32D2D;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  body { background: #e5e5e2; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+  .app { display: flex; width: 960px; height: 640px; background: var(--bg-primary); border: 0.5px solid var(--border-light); border-radius: 4px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.10); }
+
+  .sidebar { width: 232px; min-width: 232px; background: var(--bg-secondary); border-right: 0.5px solid var(--border-light); display: flex; flex-direction: column; padding: 20px 16px 0; overflow-y: auto; }
+  .app-title { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+  .app-ver   { font-size: 11px; color: var(--text-tertiary); margin-bottom: 14px; }
+  .title-divider { border: none; border-top: 0.5px solid var(--border-light); margin-bottom: 18px; }
+  .sg { margin-bottom: 20px; }
+  .sl { font-size: 11px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+  .cb { width: 15px; height: 15px; border: 0.5px solid var(--border-mid); border-radius: 3px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cb-check { width: 8px; height: 6px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translateY(-1px); }
+  .format-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .fmt-btn { padding: 6px 0; font-size: 12px; color: var(--text-secondary); border: 0.5px solid var(--border-light); border-radius: 4px; text-align: center; cursor: pointer; background: var(--bg-primary); user-select: none; }
+  .fmt-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .quality-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .ql { font-size: 11px; font-weight: 600; color: var(--accent); }
+  .qv { font-size: 12px; font-weight: 500; color: var(--accent); }
+  .track { height: 4px; background: var(--border-light); border-radius: 2px; position: relative; margin-bottom: -10px; }
+  .fill  { height: 4px; background: var(--accent); border-radius: 2px; width: 85%; pointer-events: none; }
+  .thumb { width: 14px; height: 14px; background: var(--bg-primary); border: 2px solid var(--accent); border-radius: 50%; position: absolute; top: -5px; left: calc(85% - 7px); pointer-events: none; }
+  input[type=range] { width: 100%; height: 4px; opacity: 0; cursor: pointer; display: block; position: relative; z-index: 1; }
+  select { width: 100%; padding: 6px 28px 6px 10px; font-size: 12px; border: 0.5px solid var(--border-light); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; }
+  select:focus { outline: none; border-color: var(--accent); }
+  .move-input { margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+  .move-path { flex: 1; padding: 5px 8px; font-size: 11px; border: 0.5px solid var(--border-light); border-radius: 4px; background: var(--bg-primary); color: var(--text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .move-icon { width: 26px; height: 26px; border: 0.5px solid var(--border-mid); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
+  .stat-row { display: flex; align-items: center; gap: 8px; height: 44px; border-top: 0.5px solid var(--border-light); margin-top: auto; padding: 0 2px; flex-shrink: 0; }
+  .chip { display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; padding: 4px 0; border-radius: 4px; font-weight: 500; white-space: nowrap; flex: 1; }
+  .chip svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .chip-ok   { background: var(--green-bg); color: var(--green-text); }
+  .chip-fail { background: var(--red-bg);   color: var(--red-text); }
+
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar { padding: 14px 20px; border-bottom: 0.5px solid var(--border-light); }
+  .folder-row { margin-bottom: 10px; }
+  .folder-row:last-child { margin-bottom: 0; }
+  .fl { font-size: 10px; font-weight: 500; color: var(--text-tertiary); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px; }
+  .fi { display: flex; align-items: center; gap: 8px; }
+  .fp { flex: 1; padding: 6px 10px; font-size: 12px; border: 0.5px solid var(--border-light); border-radius: 4px; background: var(--bg-secondary); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fi-icon { width: 28px; height: 28px; border: 0.5px solid var(--border-mid); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
+  .action-bar { display: flex; justify-content: flex-end; padding: 10px 20px; border-bottom: 0.5px solid var(--border-light); }
+  .btn-start { padding: 8px 20px; font-size: 13px; font-weight: 500; background: var(--accent-btn); color: #fff; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(46,134,193,0.35); transition: background .15s; }
+  .btn-start:hover { background: #1a6fa0; }
+  .btn-tri { width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 7px solid #fff; }
+  .table-wrap { flex: 1; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c-path { width: auto; }
+  col.c-orig { width: 148px; }
+  col.c-conv { width: 136px; }
+  col.c-stat { width: 136px; }
+  thead th { padding: 8px 16px; font-size: 10px; font-weight: 500; color: var(--text-tertiary); text-align: left; letter-spacing: .06em; text-transform: uppercase; border-bottom: 0.5px solid var(--border-light); position: sticky; top: 0; background: var(--bg-primary); }
+  tbody tr { border-bottom: 0.5px solid var(--border-light); }
+  tbody tr:hover { background: var(--bg-secondary); }
+  td { padding: 10px 16px; font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .link { color: var(--accent); cursor: pointer; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 4px; }
+  .badge-done { background: var(--green-bg); color: var(--green-text); }
+  .badge-cvt  { background: var(--accent-light); color: var(--accent); }
+  .badge-pend { background: var(--amber-bg); color: var(--amber-text); }
+  .spin { display: inline-block; width: 10px; height: 10px; border: 1.5px solid #B5D4F4; border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ic-check { width: 10px; height: 7px; border-left: 1.5px solid var(--green-text); border-bottom: 1.5px solid var(--green-text); transform: rotate(-45deg) translateY(-1px); display: inline-block; }
+  .ic-dot   { width: 6px; height: 6px; border-radius: 50%; background: var(--amber-text); display: inline-block; }
+  .footer { padding: 0 20px; border-top: 0.5px solid var(--border-light); display: flex; align-items: center; gap: 14px; height: 44px; }
+  .prog-bar  { flex: 1; height: 5px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
+  .prog-fill { height: 5px; background: var(--accent); width: 42%; border-radius: 2px; }
+  .prog-count { font-size: 12px; color: var(--text-tertiary); flex-shrink: 0; }
+  .prog-pct   { font-size: 12px; font-weight: 500; color: var(--accent); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="sidebar">
+    <div class="app-title">HEIC Batch Converter</div>
+    <div class="app-ver">Version 1.0.0</div>
+    <hr class="title-divider">
+
+    <div class="sg">
+      <div class="sl">Search scope</div>
+      <div class="checkbox-row"><div class="cb"><div class="cb-check"></div></div>Include subfolders</div>
+    </div>
+
+    <div class="sg">
+      <div class="sl">Output format</div>
+      <div class="format-grid">
+        <div class="fmt-btn active" onclick="selectFmt(this,'JPG')">JPG</div>
+        <div class="fmt-btn" onclick="selectFmt(this,'PNG')">PNG</div>
+        <div class="fmt-btn" onclick="selectFmt(this,'GIF')">GIF</div>
+        <div class="fmt-btn" onclick="selectFmt(this,'BMP')">BMP</div>
+      </div>
+    </div>
+
+    <div class="sg" id="quality-sg">
+      <div class="quality-row"><span class="ql">JPG quality</span><span class="qv" id="qv">85%</span></div>
+      <div class="track"><div class="fill" id="qfill"></div><div class="thumb" id="qthumb"></div></div>
+      <input type="range" min="1" max="100" value="85" oninput="updateQ(this.value)">
+    </div>
+
+    <div class="sg">
+      <div class="sl">Conflict resolution</div>
+      <select>
+        <option>Generate unique name</option>
+        <option>Replace</option>
+        <option>Ignore</option>
+      </select>
+    </div>
+
+    <div class="sg">
+      <div class="sl">Original file handling</div>
+      <select onchange="document.getElementById('move-input').style.display=this.value==='move'?'flex':'none'">
+        <option value="keep">Keep</option>
+        <option value="delete">Delete</option>
+        <option value="move">Move to…</option>
+      </select>
+      <div class="move-input" id="move-input" style="display:none">
+        <div class="move-path">C:\Users\Admin\Pictures\HEIC_Archive</div>
+        <div class="move-icon">
+          <svg width="13" height="11" viewBox="0 0 14 12" fill="none"><path d="M1 2.5C1 1.67 1.67 1 2.5 1H5l1.5 1.5H11.5C12.33 2.5 13 3.17 13 4v5.5c0 .83-.67 1.5-1.5 1.5h-9C1.67 11 1 10.33 1 9.5v-7z" stroke="#888" stroke-width="1.2" fill="none"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="chip chip-ok">
+        <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        58 done
+      </div>
+      <div class="chip chip-fail">
+        <svg viewBox="0 0 12 12" fill="none"><line x1="3" y1="3" x2="9" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="3" x2="3" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        2 failed
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="folder-row">
+        <div class="fl">Source folder</div>
+        <div class="fi">
+          <div class="fp">C:\Users\Admin\Pictures\Vacation_HEIC</div>
+          <div class="fi-icon"><svg width="13" height="11" viewBox="0 0 14 12" fill="none"><path d="M1 2.5C1 1.67 1.67 1 2.5 1H5l1.5 1.5H11.5C12.33 2.5 13 3.17 13 4v5.5c0 .83-.67 1.5-1.5 1.5h-9C1.67 11 1 10.33 1 9.5v-7z" stroke="#888" stroke-width="1.2" fill="none"/></svg></div>
+        </div>
+      </div>
+      <div class="folder-row">
+        <div class="fl">Target folder</div>
+        <div class="fi">
+          <div class="fp">C:\Users\Admin\Pictures\Vacation_HEIC\Converted</div>
+          <div class="fi-icon"><svg width="13" height="11" viewBox="0 0 14 12" fill="none"><path d="M1 2.5C1 1.67 1.67 1 2.5 1H5l1.5 1.5H11.5C12.33 2.5 13 3.17 13 4v5.5c0 .83-.67 1.5-1.5 1.5h-9C1.67 11 1 10.33 1 9.5v-7z" stroke="#888" stroke-width="1.2" fill="none"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <button class="btn-start"><div class="btn-tri"></div>Start conversion</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <colgroup>
+          <col class="c-path">
+          <col class="c-orig">
+          <col class="c-conv">
+          <col class="c-stat">
+        </colgroup>
+        <thead>
+          <tr><th>Path</th><th>Original name</th><th>Convert name</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td title="..\Pictures\Vacation_HEIC\Summer">..\Pictures\Vacation_HEIC\Summer</td>
+            <td>IMG_8421.HEIC</td><td class="link">IMG_8421.JPG</td>
+            <td><span class="badge badge-done"><span class="ic-check"></span>Completed</span></td>
+          </tr>
+          <tr>
+            <td title="..\Pictures\Vacation_HEIC\Summer">..\Pictures\Vacation_HEIC\Summer</td>
+            <td>IMG_8422.HEIC</td><td class="link">IMG_8422.JPG</td>
+            <td><span class="badge badge-cvt"><span class="spin"></span>Converting…</span></td>
+          </tr>
+          <tr>
+            <td title="..\Pictures\Vacation_HEIC\Winter">..\Pictures\Vacation_HEIC\Winter</td>
+            <td>IMG_8423.HEIC</td><td class="link">IMG_8423.JPG</td>
+            <td><span class="badge badge-pend"><span class="ic-dot"></span>Pending</span></td>
+          </tr>
+          <tr>
+            <td title="..\Pictures\Vacation_HEIC\Winter">..\Pictures\Vacation_HEIC\Winter</td>
+            <td>IMG_8424.HEIC</td><td class="link">IMG_8424.JPG</td>
+            <td><span class="badge badge-pend"><span class="ic-dot"></span>Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      <div class="prog-bar"><div class="prog-fill"></div></div>
+      <span class="prog-count">58 / 142 files</span>
+      <span class="prog-pct">42%</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function selectFmt(el, fmt) {
+    document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('quality-sg').style.display = fmt === 'JPG' ? 'block' : 'none';
+  }
+  function updateQ(v) {
+    document.getElementById('qv').textContent = v + '%';
+    document.getElementById('qfill').style.width = v + '%';
+    document.getElementById('qthumb').style.left = 'calc(' + v + '% - 7px)';
+  }
+</script>
+</body>
+</html>
