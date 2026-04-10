@@ -97,6 +97,36 @@ namespace Alan.HeicConverter
                 isMaximized);
         }
 
+        private void JpgQualitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (JpgQualityText != null)
+            {
+                JpgQualityText.Text = $"{e.NewValue:0}%";
+            }
+        }
+
+        private void FormatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton clickedButton)
+            {
+                if (clickedButton.IsChecked == false)
+                {
+                    clickedButton.IsChecked = true;
+                    return;
+                }
+
+                if (clickedButton != JpgButton) JpgButton.IsChecked = false;
+                if (clickedButton != PngButton) PngButton.IsChecked = false;
+                if (clickedButton != GifButton) GifButton.IsChecked = false;
+                if (clickedButton != BmpButton) BmpButton.IsChecked = false;
+
+                if (JpgQualityPanel != null)
+                {
+                    JpgQualityPanel.Visibility = (clickedButton == JpgButton) ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
+
         private void OriginalFileHandlingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CustomPathGrid != null && OriginalFileHandlingComboBox.SelectedIndex == 2)

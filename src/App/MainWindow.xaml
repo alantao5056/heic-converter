@@ -100,20 +100,20 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <ToggleButton Content="JPG" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" IsChecked="True" />
-                                <ToggleButton Content="PNG" FontSize="12" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
-                                <ToggleButton Content="GIF" FontSize="12" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
-                                <ToggleButton Content="BMP" FontSize="12" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
+                                <ToggleButton x:Name="JpgButton" Content="JPG" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" IsChecked="True" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="PngButton" Content="PNG" FontSize="12" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="GifButton" Content="GIF" FontSize="12" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="BmpButton" Content="BMP" FontSize="12" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
                             </Grid>
                         </StackPanel>
                         
                         <!-- JPG quality -->
-                        <StackPanel Spacing="8">
+                        <StackPanel x:Name="JpgQualityPanel" Spacing="8">
                             <Grid>
                                 <TextBlock Text="JPG quality" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" HorizontalAlignment="Left" />
-                                <TextBlock Text="85%" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AccentColor}" HorizontalAlignment="Right" />
+                                <TextBlock x:Name="JpgQualityText" Text="85%" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AccentColor}" HorizontalAlignment="Right" />
                             </Grid>
-                            <Slider Minimum="1" Maximum="100" Value="85" Foreground="{StaticResource AccentColor}" />
+                            <Slider x:Name="JpgQualitySlider" Minimum="1" Maximum="100" Value="85" Foreground="{StaticResource AccentColor}" ValueChanged="JpgQualitySlider_ValueChanged" />
                         </StackPanel>
                         
                         <!-- Conflict resolution -->
