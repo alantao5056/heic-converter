@@ -7,13 +7,370 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="HeicConverter">
-
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
+    Title="Heic Batch Converter">
 
     <Grid>
+        <Grid.Resources>
+            <SolidColorBrush x:Key="SidebarBackground" Color="#F3F3F0" />
+            <SolidColorBrush x:Key="MainBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="AccentColor" Color="#185FA5" />
+            <SolidColorBrush x:Key="AccentLightColor" Color="#E6F1FB" />
+            <SolidColorBrush x:Key="PrimaryButtonBackground" Color="#2E86C1" />
+            <SolidColorBrush x:Key="PrimaryButtonHoverBackground" Color="#1A6FA0" />
+            <SolidColorBrush x:Key="BorderLightColor" Color="#1E000000" />
+            <SolidColorBrush x:Key="BorderMidColor" Color="#38000000" />
+            
+            <SolidColorBrush x:Key="TextPrimaryColor" Color="#1A1A18" />
+            <SolidColorBrush x:Key="TextSecondaryColor" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="TextTertiaryColor" Color="#888780" />
+            
+            <SolidColorBrush x:Key="GreenBgColor" Color="#EAF3DE" />
+            <SolidColorBrush x:Key="GreenBorderColor" Color="#92B077" />
+            <SolidColorBrush x:Key="GreenTextColor" Color="#3B6D11" />
+            <SolidColorBrush x:Key="AmberBgColor" Color="#FAEEDA" />
+            <SolidColorBrush x:Key="AmberBorderColor" Color="#BF9E72" />
+            <SolidColorBrush x:Key="AmberTextColor" Color="#854F0B" />
+            <SolidColorBrush x:Key="RedBgColor" Color="#FCEBEB" />
+            <SolidColorBrush x:Key="RedBorderColor" Color="#CF8C8C" />
+            <SolidColorBrush x:Key="RedTextColor" Color="#A32D2D" />
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="232" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource SidebarBackground}" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
+                <ScrollViewer Grid.Row="0" Padding="16,20,16,0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="20">
+                        <!-- Header -->
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="HEIC Batch Converter" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}" />
+                            <TextBlock Text="Version 1.0.0" FontSize="11" Foreground="{StaticResource TextTertiaryColor}" Margin="0,0,0,12" />
+                            <MenuFlyoutSeparator Background="{StaticResource BorderLightColor}" Margin="-16,0" />
+                        </StackPanel>
+                        
+                        <!-- Search scope -->
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Search scope" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
+                            <CheckBox Content="Include subfolders" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" VerticalContentAlignment="Center" Padding="7,0" />
+                        </StackPanel>
+                        
+                        <!-- Output format -->
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Output format" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
+                            <Grid ColumnSpacing="6" RowSpacing="6">
+                                <Grid.Resources>
+                                    <SolidColorBrush x:Key="ToggleButtonBackground" Color="#FFFFFF" />
+                                    <SolidColorBrush x:Key="ToggleButtonForeground" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrush" Color="#1E000000" />
+                                    
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="ToggleButtonForegroundPointerOver" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrushPointerOver" Color="#1E000000" />
+
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundPressed" Color="#E5E5E2" />
+                                    <SolidColorBrush x:Key="ToggleButtonForegroundPressed" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrushPressed" Color="#38000000" />
+
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="#E6F1FB" />
+                                    <SolidColorBrush x:Key="ToggleButtonForegroundChecked" Color="#185FA5" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrushChecked" Color="#185FA5" />
+                                    
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="#E6F1FB" />
+                                    <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="#185FA5" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPointerOver" Color="#185FA5" />
+
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="#E6F1FB" />
+                                    <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPressed" Color="#185FA5" />
+                                    <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPressed" Color="#185FA5" />
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton Content="JPG" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" IsChecked="True" />
+                                <ToggleButton Content="PNG" FontSize="12" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
+                                <ToggleButton Content="GIF" FontSize="12" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
+                                <ToggleButton Content="BMP" FontSize="12" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" />
+                            </Grid>
+                        </StackPanel>
+                        
+                        <!-- JPG quality -->
+                        <StackPanel Spacing="8">
+                            <Grid>
+                                <TextBlock Text="JPG quality" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" HorizontalAlignment="Left" />
+                                <TextBlock Text="85%" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AccentColor}" HorizontalAlignment="Right" />
+                            </Grid>
+                            <Slider Minimum="1" Maximum="100" Value="85" Foreground="{StaticResource AccentColor}" />
+                        </StackPanel>
+                        
+                        <!-- Conflict resolution -->
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Conflict resolution" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
+                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13">
+                                <ComboBoxItem Content="Generate unique name" />
+                                <ComboBoxItem Content="Replace" />
+                                <ComboBoxItem Content="Ignore" />
+                            </ComboBox>
+                        </StackPanel>
+                        
+                        <!-- Original file handling -->
+                        <StackPanel Spacing="8" Margin="0,0,0,20">
+                            <TextBlock Text="Original file handling" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
+                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13">
+                                <x:String>Keep</x:String>
+                                <x:String>Delete</x:String>
+                                <x:String>Move to…</x:String>
+                            </ComboBox>
+                            <!-- Conditional Path (mocked as collapsed) -->
+                            <Grid Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\HEIC_Archive" IsReadOnly="True" FontSize="12" Foreground="{StaticResource TextTertiaryColor}" />
+                                <Button Grid.Column="1" Margin="6,0,0,0" Padding="4">
+                                    <FontIcon Glyph="&#xED25;" FontSize="14" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <!-- Stats row -->
+                <Border Grid.Row="1" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,1,0,0" Height="44">
+                    <Grid Padding="16,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Background="{StaticResource GreenBgColor}" BorderBrush="{StaticResource GreenBorderColor}" BorderThickness="1" CornerRadius="4" VerticalAlignment="Center" Padding="0,4">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                                <FontIcon Glyph="&#xE73E;" FontSize="10" Foreground="{StaticResource GreenTextColor}" />
+                                <TextBlock Text="58 done" FontSize="12" FontWeight="Medium" Foreground="{StaticResource GreenTextColor}" />
+                            </StackPanel>
+                        </Border>
+                        
+                        <Border Grid.Column="2" Background="{StaticResource RedBgColor}" BorderBrush="{StaticResource RedBorderColor}" BorderThickness="1" CornerRadius="4" VerticalAlignment="Center" Padding="0,4">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                                <FontIcon Glyph="&#xE711;" FontSize="10" Foreground="{StaticResource RedTextColor}" />
+                                <TextBlock Text="2 failed" FontSize="12" FontWeight="Medium" Foreground="{StaticResource RedTextColor}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Panel -->
+        <Grid Grid.Column="1" Background="{StaticResource MainBackground}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!-- Topbar -->
+            <Border Grid.Row="0" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1" Padding="20,14">
+                <StackPanel Spacing="10">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="SOURCE FOLDER" FontSize="10" FontWeight="Medium" Foreground="{StaticResource TextTertiaryColor}" CharacterSpacing="60" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC" IsReadOnly="True" Background="{StaticResource SidebarBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4">
+                                <TextBox.Resources>
+                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
+                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
+                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
+                                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
+                                </Button.Resources>
+                                <FontIcon Glyph="&#xED25;" FontSize="16" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="TARGET FOLDER" FontSize="10" FontWeight="Medium" Foreground="{StaticResource TextTertiaryColor}" CharacterSpacing="60" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC\Converted" IsReadOnly="True" Background="{StaticResource SidebarBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4">
+                                <TextBox.Resources>
+                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
+                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
+                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
+                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
+                                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
+                                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
+                                </Button.Resources>
+                                <FontIcon Glyph="&#xED25;" FontSize="16" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            
+            <!-- Action Bar -->
+            <Border Grid.Row="1" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1" Padding="20,10">
+                <Button Background="{StaticResource PrimaryButtonBackground}" Foreground="White" HorizontalAlignment="Right" Padding="12,8" CornerRadius="4">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1A6FA0" />
+                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#155B84" />
+                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE768;" FontSize="14" />
+                        <TextBlock Text="Start conversion" FontSize="14" FontWeight="Medium" />
+                    </StackPanel>
+                </Button>
+            </Border>
+            
+            <!-- File Table -->
+            <ListView Grid.Row="2" SelectionMode="None">
+                <ListView.Header>
+                    <Grid Padding="16,8" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1" Background="{StaticResource MainBackground}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="148" />
+                            <ColumnDefinition Width="136" />
+                            <ColumnDefinition Width="136" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="PATH" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" CharacterSpacing="60" />
+                        <TextBlock Grid.Column="1" Text="ORIGINAL NAME" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" CharacterSpacing="60" />
+                        <TextBlock Grid.Column="2" Text="CONVERT NAME" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" CharacterSpacing="60" />
+                        <TextBlock Grid.Column="3" Text="STATUS" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" CharacterSpacing="60" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.Items>
+                    <Grid Padding="16,10" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="148" />
+                            <ColumnDefinition Width="136" />
+                            <ColumnDefinition Width="136" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="..\Pictures\Vacation_HEIC\Summer" ToolTipService.ToolTip="..\Pictures\Vacation_HEIC\Summer" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Text="IMG_8421.HEIC" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="2" Text="IMG_8421.JPG" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                        <Border Grid.Column="3" Background="{StaticResource GreenBgColor}" CornerRadius="4" HorizontalAlignment="Left" Padding="9,3">
+                            <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="{StaticResource GreenTextColor}" />
+                                <TextBlock Text="Completed" FontSize="12" FontWeight="Medium" Foreground="{StaticResource GreenTextColor}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Grid Padding="16,10" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="148" />
+                            <ColumnDefinition Width="136" />
+                            <ColumnDefinition Width="136" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="..\Pictures\Vacation_HEIC\Summer" ToolTipService.ToolTip="..\Pictures\Vacation_HEIC\Summer" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Text="IMG_8422.HEIC" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="2" Text="IMG_8422.JPG" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                        <Border Grid.Column="3" Background="{StaticResource AccentLightColor}" CornerRadius="4" HorizontalAlignment="Left" Padding="9,3">
+                            <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                <ProgressRing IsActive="True" Width="12" Height="12" MinWidth="12" MinHeight="12" Foreground="{StaticResource AccentColor}" />
+                                <TextBlock Text="Converting…" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AccentColor}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Grid Padding="16,10" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="148" />
+                            <ColumnDefinition Width="136" />
+                            <ColumnDefinition Width="136" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="..\Pictures\Vacation_HEIC\Winter" ToolTipService.ToolTip="..\Pictures\Vacation_HEIC\Winter" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Text="IMG_8423.HEIC" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="2" Text="IMG_8423.JPG" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                        <Border Grid.Column="3" Background="{StaticResource AmberBgColor}" CornerRadius="4" HorizontalAlignment="Left" Padding="9,3">
+                            <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                <Ellipse Width="6" Height="6" Fill="{StaticResource AmberTextColor}" />
+                                <TextBlock Text="Pending" FontSize="1" FontWeight="Medium" Foreground="{StaticResource AmberTextColor}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Grid Padding="16,10" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="148" />
+                            <ColumnDefinition Width="136" />
+                            <ColumnDefinition Width="136" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="..\Pictures\Vacation_HEIC\Winter" ToolTipService.ToolTip="..\Pictures\Vacation_HEIC\Winter" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="1" Text="IMG_8424.HEIC" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="2" Text="IMG_8424.JPG" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                        <Border Grid.Column="3" Background="{StaticResource AmberBgColor}" CornerRadius="4" HorizontalAlignment="Left" Padding="9,3">
+                            <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                <Ellipse Width="6" Height="6" Fill="{StaticResource AmberTextColor}" />
+                                <TextBlock Text="Pending" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AmberTextColor}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ListView.Items>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="3" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,1,0,0" Height="44" Padding="20,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ProgressBar Grid.Column="0" Value="42" Maximum="100" Height="5" Foreground="{StaticResource AccentColor}" Background="{StaticResource BorderLightColor}" VerticalAlignment="Center" Margin="0,0,14,0" />
+                    <TextBlock Grid.Column="1" Text="58 / 142 files" FontSize="12" Foreground="{StaticResource TextTertiaryColor}" VerticalAlignment="Center" Margin="0,0,14,0" />
+                    <TextBlock Grid.Column="2" Text="42%" FontSize="12" FontWeight="Medium" Foreground="{StaticResource AccentColor}" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
