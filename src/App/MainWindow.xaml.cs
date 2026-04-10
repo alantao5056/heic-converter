@@ -96,5 +96,31 @@ namespace Alan.HeicConverter
                 _appWindow.Position.Y,
                 isMaximized);
         }
+
+        private void OriginalFileHandlingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CustomPathGrid != null && OriginalFileHandlingComboBox.SelectedIndex == 2)
+            {
+                CustomPathGrid.Visibility = Visibility.Visible;
+            }
+            else if (CustomPathGrid != null)
+            {
+                CustomPathGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async void BrowseCustomPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            folderPicker.FileTypeFilter.Add("*");
+            
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                CustomPathTextBox.Text = folder.Path;
+            }
+        }
     }
 }

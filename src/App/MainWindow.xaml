@@ -119,7 +119,7 @@
                         <!-- Conflict resolution -->
                         <StackPanel Spacing="8">
                             <TextBlock Text="Conflict resolution" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13">
+                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32">
                                 <ComboBoxItem Content="Generate unique name" />
                                 <ComboBoxItem Content="Replace" />
                                 <ComboBoxItem Content="Ignore" />
@@ -129,20 +129,35 @@
                         <!-- Original file handling -->
                         <StackPanel Spacing="8" Margin="0,0,0,20">
                             <TextBlock Text="Original file handling" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13">
+                            <ComboBox x:Name="OriginalFileHandlingComboBox" HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13" SelectionChanged="OriginalFileHandlingComboBox_SelectionChanged" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32">
                                 <x:String>Keep</x:String>
                                 <x:String>Delete</x:String>
-                                <x:String>Move to…</x:String>
+                                <x:String>Move to …</x:String>
                             </ComboBox>
                             <!-- Conditional Path (mocked as collapsed) -->
-                            <Grid Visibility="Collapsed">
+                            <Grid x:Name="CustomPathGrid" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\HEIC_Archive" IsReadOnly="True" FontSize="12" Foreground="{StaticResource TextTertiaryColor}" />
-                                <Button Grid.Column="1" Margin="6,0,0,0" Padding="4">
-                                    <FontIcon Glyph="&#xED25;" FontSize="14" Foreground="{StaticResource TextSecondaryColor}"/>
+                                <TextBox x:Name="CustomPathTextBox" Grid.Column="0" Text="" IsReadOnly="True" Background="{StaticResource MainBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4" PlaceholderText="Select a folder...">
+                                    <TextBox.Resources>
+                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#FFFFFF" />
+                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
+                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
+                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
+                                    </TextBox.Resources>
+                                </TextBox>
+                                <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}" Click="BrowseCustomPathButton_Click">
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
+                                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
+                                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
+                                    </Button.Resources>
+                                    <FontIcon Glyph="&#xED25;" FontSize="16" />
                                 </Button>
                             </Grid>
                         </StackPanel>
