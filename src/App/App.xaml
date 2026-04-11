@@ -25,6 +25,9 @@
             <SolidColorBrush x:Key="TextSecondaryColor" Color="#5F5E5A" />
             <SolidColorBrush x:Key="TextTertiaryColor" Color="#888780" />
             
+            <SolidColorBrush x:Key="GrayBgColor" Color="#F3F3F0" />
+            <SolidColorBrush x:Key="GrayTextColor" Color="#5F5E5A" />
+            
             <SolidColorBrush x:Key="GreenBgColor" Color="#EAF3DE" />
             <SolidColorBrush x:Key="GreenBorderColor" Color="#92B077" />
             <SolidColorBrush x:Key="GreenTextColor" Color="#3B6D11" />

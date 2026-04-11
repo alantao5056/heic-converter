@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border x:Name="RootBorder" CornerRadius="4" HorizontalAlignment="Left" Padding="8,4">
+    <Border x:Name="RootBorder" CornerRadius="4" HorizontalAlignment="Left" Padding="8,3">
         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
             <!-- ProgressRing for Converting -->
             <ProgressRing x:Name="StatusProgressRing" Width="12" Height="12" MinWidth="12" MinHeight="12" Visibility="Collapsed" />

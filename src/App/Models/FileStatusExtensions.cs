@@ -29,6 +29,8 @@ namespace Alan.HeicConverter.Models
             FileStatus.Completed => "GreenBgColor",
             FileStatus.Error => "RedBgColor",
             FileStatus.Pending => "AmberBgColor",
+            FileStatus.Ready => "GrayBgColor",
+            FileStatus.Converting => "AccentLightColor",
             _ => "AccentLightColor"
         };
 
@@ -37,6 +39,8 @@ namespace Alan.HeicConverter.Models
             FileStatus.Completed => "GreenTextColor",
             FileStatus.Error => "RedTextColor",
             FileStatus.Pending => "AmberTextColor",
+            FileStatus.Ready => "GrayTextColor",
+            FileStatus.Converting => "AccentColor",
             _ => "AccentColor"
         };
     }

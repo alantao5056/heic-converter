@@ -355,14 +355,22 @@ namespace Alan.HeicConverter
 
             try
             {
+                var pendingFiles = new System.Collections.Generic.List<FileItem>();
                 foreach (var file in Files)
                 {
-                    if (file.Status == FileStatus.Completed) 
+                    if (file.Status != FileStatus.Completed)
+                    {
+                        file.Status = FileStatus.Pending;
+                        pendingFiles.Add(file);
+                    }
+                    else
                     {
                         processedCount++;
-                        continue;
                     }
+                }
 
+                foreach (var file in pendingFiles)
+                {
                     file.Status = FileStatus.Converting;
 
                     string sourcePath = Path.Combine(file.Path, file.OriginalName);
