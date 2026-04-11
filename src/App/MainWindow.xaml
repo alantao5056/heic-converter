@@ -84,7 +84,7 @@
                         <!-- Search scope -->
                         <StackPanel Spacing="8">
                             <TextBlock Text="Search scope" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <CheckBox x:Name="IncludeSubfoldersCheckBox" Content="Include subfolders" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" VerticalContentAlignment="Center" Padding="7,0" />
+                            <CheckBox x:Name="IncludeSubfoldersCheckBox" Content="Include subfolders" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" VerticalContentAlignment="Center" Padding="7,0" Checked="IncludeSubfoldersCheckBox_CheckedChanged" Unchecked="IncludeSubfoldersCheckBox_CheckedChanged" />
                         </StackPanel>
                         
                         <!-- Output format -->
@@ -161,7 +161,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="CustomPathTextBox" Grid.Column="0" Text="" PlaceholderText="Select a folder..." Style="{StaticResource SidebarTextBoxStyle}" />
-                                <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseCustomPathButton_Click">
+                                <Button x:Name="BrowseCustomPathButton" Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseCustomPathButton_Click">
                                     <FontIcon Glyph="&#xED25;" FontSize="16" />
                                 </Button>
                             </Grid>
@@ -222,7 +222,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="SourceFolderTextBox" Grid.Column="0" Text="" Style="{StaticResource MainPanelTextBoxStyle}" />
-                            <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseSourceFolderButton_Click">
+                            <Button x:Name="BrowseSourceFolderButton" Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseSourceFolderButton_Click">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>
                         </Grid>
@@ -235,7 +235,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="TargetFolderTextBox" Grid.Column="0" Text="" Style="{StaticResource MainPanelTextBoxStyle}" />
-                            <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseTargetFolderButton_Click">
+                            <Button x:Name="BrowseTargetFolderButton" Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseTargetFolderButton_Click">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>
                         </Grid>
@@ -245,7 +245,7 @@
             
             <!-- Action Bar -->
             <Border Grid.Row="1" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1" Padding="20,10">
-                <Button x:Name="StartConversionButton" Click="StartConversionButton_Click" Background="{StaticResource PrimaryButtonBackground}" Foreground="White" HorizontalAlignment="Right" Padding="12,8" CornerRadius="4">
+                <Button x:Name="StartConversionButton" Click="StartConversionButton_Click" Background="{StaticResource PrimaryButtonBackground}" Foreground="White" HorizontalAlignment="Right" Padding="12,8" CornerRadius="4" IsEnabled="False">
                     <Button.Resources>
                         <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1A6FA0" />
                         <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />

@@ -106,6 +106,8 @@ namespace Alan.HeicConverter
 
             SourceFolderTextBox.Text = string.Empty;
             TargetFolderTextBox.Text = string.Empty;
+            
+            UpdateStartConversionButtonStatus();
         }
 
         private void SetDefaultSize()
@@ -201,6 +203,14 @@ namespace Alan.HeicConverter
             }
         }
 
+        private void IncludeSubfoldersCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (SourceFolderTextBox != null)
+            {
+                ScanFolder(SourceFolderTextBox.Text);
+            }
+        }
+
         private async void BrowseCustomPathButton_Click(object sender, RoutedEventArgs e)
         {
             var folderPicker = new Windows.Storage.Pickers.FolderPicker();
@@ -242,6 +252,7 @@ namespace Alan.HeicConverter
             
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
             {
+                UpdateStartConversionButtonStatus();
                 return;
             }
 
@@ -270,6 +281,10 @@ namespace Alan.HeicConverter
             {
                 // In a real app, show a message dialog
                 System.Diagnostics.Debug.WriteLine($"Error scanning folder: {ex.Message}");
+            }
+            finally
+            {
+                UpdateStartConversionButtonStatus();
             }
         }
 
@@ -318,6 +333,7 @@ namespace Alan.HeicConverter
             if (Files.Count == 0) return;
 
             StartConversionButton.IsEnabled = false;
+            SetControlsEnabled(false);
 
             var targetFolder = TargetFolderTextBox.Text;
             if (string.IsNullOrWhiteSpace(targetFolder))
@@ -337,44 +353,76 @@ namespace Alan.HeicConverter
 
             int processedCount = 0;
 
-            foreach (var file in Files)
+            try
             {
-                if (file.Status == FileStatus.Completed) 
+                foreach (var file in Files)
                 {
-                    processedCount++;
-                    continue;
-                }
-
-                file.Status = FileStatus.Converting;
-
-                string sourcePath = Path.Combine(file.Path, file.OriginalName);
-
-                try
-                {
-                    // Run conversion in background to keep UI responsive
-                    var result = await System.Threading.Tasks.Task.Run(() => 
-                        FileService.Convert(sourcePath, targetFolder, format, options)
-                    );
-
-                    if (string.IsNullOrEmpty(result.ErrorMessage))
+                    if (file.Status == FileStatus.Completed) 
                     {
-                        file.ConvertedName = result.ConvertedFileName;
-                        file.Status = FileStatus.Completed;
+                        processedCount++;
+                        continue;
                     }
-                    else
+
+                    file.Status = FileStatus.Converting;
+
+                    string sourcePath = Path.Combine(file.Path, file.OriginalName);
+
+                    try
                     {
+                        // Run conversion in background to keep UI responsive
+                        var result = await System.Threading.Tasks.Task.Run(() => 
+                            FileService.Convert(sourcePath, targetFolder, format, options)
+                        );
+
+                        if (string.IsNullOrEmpty(result.ErrorMessage))
+                        {
+                            file.ConvertedName = result.ConvertedFileName;
+                            file.Status = FileStatus.Completed;
+                        }
+                        else
+                        {
+                            file.Status = FileStatus.Error;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error converting file: {ex.Message}");
                         file.Status = FileStatus.Error;
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error converting file: {ex.Message}");
-                    file.Status = FileStatus.Error;
-                }
 
-                processedCount++;
-                UpdateFooter(processedCount);
+                    processedCount++;
+                    UpdateFooter(processedCount);
+                }
             }
+            finally
+            {
+                SetControlsEnabled(true);
+                UpdateStartConversionButtonStatus();
+            }
+        }
+
+        private void UpdateStartConversionButtonStatus()
+        {
+            if (StartConversionButton != null)
+            {
+                StartConversionButton.IsEnabled = Files.Count > 0;
+            }
+        }
+
+        private void SetControlsEnabled(bool isEnabled)
+        {
+            if (IncludeSubfoldersCheckBox != null) IncludeSubfoldersCheckBox.IsEnabled = isEnabled;
+            if (JpgButton != null) JpgButton.IsEnabled = isEnabled;
+            if (PngButton != null) PngButton.IsEnabled = isEnabled;
+            if (GifButton != null) GifButton.IsEnabled = isEnabled;
+            if (BmpButton != null) BmpButton.IsEnabled = isEnabled;
+            if (JpgQualitySlider != null) JpgQualitySlider.IsEnabled = isEnabled;
+            if (ConflictResolutionComboBox != null) ConflictResolutionComboBox.IsEnabled = isEnabled;
+            if (OriginalFileHandlingComboBox != null) OriginalFileHandlingComboBox.IsEnabled = isEnabled;
+            
+            if (BrowseCustomPathButton != null) BrowseCustomPathButton.IsEnabled = isEnabled;
+            if (BrowseSourceFolderButton != null) BrowseSourceFolderButton.IsEnabled = isEnabled;
+            if (BrowseTargetFolderButton != null) BrowseTargetFolderButton.IsEnabled = isEnabled;
         }
     }
 }
