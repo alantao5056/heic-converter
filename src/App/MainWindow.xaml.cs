@@ -26,6 +26,15 @@ namespace Alan.HeicConverter
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public record FileHandlingOption(string DisplayName, OriginalFileHandling Value);
+
+        public IReadOnlyList<FileHandlingOption> FileHandlingOptions { get; } = new[]
+        {
+            new FileHandlingOption("Keep", OriginalFileHandling.Keep),
+            new FileHandlingOption("Delete", OriginalFileHandling.Delete),
+            new FileHandlingOption("Move to …", OriginalFileHandling.MoveTo)
+        };
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern uint GetDpiForWindow(IntPtr hwnd);
 
@@ -92,7 +101,7 @@ namespace Alan.HeicConverter
             JpgQualityPanel.Visibility = (settings.Format == OutputFormat.Jpg) ? Visibility.Visible : Visibility.Collapsed;
 
             ConflictResolutionComboBox.SelectedIndex = (int)settings.ConflictResolution;
-            OriginalFileHandlingComboBox.SelectedIndex = (int)settings.OriginalFileHandling;
+            OriginalFileHandlingComboBox.SelectedItem = FileHandlingOptions.FirstOrDefault(opt => opt.Value == settings.OriginalFileHandling) ?? FileHandlingOptions[0];
             CustomPathTextBox.Text = settings.CustomPath;
 
             SourceFolderTextBox.Text = string.Empty;
@@ -136,7 +145,7 @@ namespace Alan.HeicConverter
                 IncludeSubfolders = IncludeSubfoldersCheckBox.IsChecked ?? false,
                 JpgQuality = (int)JpgQualitySlider.Value,
                 ConflictResolution = (ConflictResolution)ConflictResolutionComboBox.SelectedIndex,
-                OriginalFileHandling = (OriginalFileHandling)OriginalFileHandlingComboBox.SelectedIndex,
+                OriginalFileHandling = OriginalFileHandlingComboBox.SelectedItem is FileHandlingOption opt ? opt.Value : OriginalFileHandling.Keep,
                 CustomPath = CustomPathTextBox.Text
             };
 
@@ -180,7 +189,9 @@ namespace Alan.HeicConverter
 
         private void OriginalFileHandlingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CustomPathGrid != null && OriginalFileHandlingComboBox.SelectedIndex == 2)
+            if (OriginalFileHandlingComboBox.SelectedItem is not FileHandlingOption selectedOption) return;
+
+            if (CustomPathGrid != null && selectedOption.Value == OriginalFileHandling.MoveTo)
             {
                 CustomPathGrid.Visibility = Visibility.Visible;
             }

@@ -153,11 +153,7 @@
                         <!-- Original file handling -->
                         <StackPanel Spacing="8" Margin="0,0,0,20">
                             <TextBlock Text="Original file handling" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <ComboBox x:Name="OriginalFileHandlingComboBox" HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13" SelectionChanged="OriginalFileHandlingComboBox_SelectionChanged" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32">
-                                <x:String>Keep</x:String>
-                                <x:String>Delete</x:String>
-                                <x:String>Move to …</x:String>
-                            </ComboBox>
+                            <ComboBox x:Name="OriginalFileHandlingComboBox" ItemsSource="{x:Bind FileHandlingOptions}" DisplayMemberPath="DisplayName" SelectedValuePath="Value" HorizontalAlignment="Stretch" FontSize="13" SelectionChanged="OriginalFileHandlingComboBox_SelectionChanged" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32" />
                             <!-- Conditional Path (mocked as collapsed) -->
                             <Grid x:Name="CustomPathGrid" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
