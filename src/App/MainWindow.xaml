@@ -111,7 +111,7 @@
                         <!-- Search scope -->
                         <StackPanel Spacing="8">
                             <TextBlock Text="Search scope" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <CheckBox Content="Include subfolders" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" VerticalContentAlignment="Center" Padding="7,0" />
+                            <CheckBox x:Name="IncludeSubfoldersCheckBox" Content="Include subfolders" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" VerticalContentAlignment="Center" Padding="7,0" />
                         </StackPanel>
                         
                         <!-- Output format -->
@@ -170,7 +170,7 @@
                         <!-- Conflict resolution -->
                         <StackPanel Spacing="8">
                             <TextBlock Text="Conflict resolution" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}" />
-                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32">
+                            <ComboBox x:Name="ConflictResolutionComboBox" HorizontalAlignment="Stretch" SelectedIndex="0" FontSize="13" VerticalContentAlignment="Center" Padding="12,0,0,0" MinHeight="32">
                                 <ComboBoxItem Content="Generate unique name" />
                                 <ComboBoxItem Content="Replace" />
                                 <ComboBoxItem Content="Ignore" />
@@ -252,7 +252,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC" Style="{StaticResource MainPanelTextBoxStyle}" />
+                            <TextBox x:Name="SourceFolderTextBox" Grid.Column="0" Text="" Style="{StaticResource MainPanelTextBoxStyle}" />
                             <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>
@@ -265,7 +265,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC\Converted" Style="{StaticResource MainPanelTextBoxStyle}" />
+                            <TextBox x:Name="TargetFolderTextBox" Grid.Column="0" Text="" Style="{StaticResource MainPanelTextBoxStyle}" />
                             <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>

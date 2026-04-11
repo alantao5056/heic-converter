@@ -13,6 +13,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Alan.HeicConverter.Services;
+using Alan.HeicConverter.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,6 +39,7 @@ namespace Alan.HeicConverter
             _appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
 
             RestoreWindowState();
+            LoadSettings();
 
             this.Closed += MainWindow_Closed;
         }
@@ -69,6 +71,29 @@ namespace Alan.HeicConverter
             }
         }
 
+        private void LoadSettings()
+        {
+            var settings = StorageService.LoadAppSettings();
+
+            IncludeSubfoldersCheckBox.IsChecked = settings.IncludeSubfolders;
+
+            JpgButton.IsChecked = settings.Format == OutputFormat.Jpg;
+            PngButton.IsChecked = settings.Format == OutputFormat.Png;
+            GifButton.IsChecked = settings.Format == OutputFormat.Gif;
+            BmpButton.IsChecked = settings.Format == OutputFormat.Bmp;
+
+            JpgQualitySlider.Value = settings.JpgQuality;
+            JpgQualityText.Text = $"{settings.JpgQuality}%";
+            JpgQualityPanel.Visibility = (settings.Format == OutputFormat.Jpg) ? Visibility.Visible : Visibility.Collapsed;
+
+            ConflictResolutionComboBox.SelectedIndex = (int)settings.ConflictResolution;
+            OriginalFileHandlingComboBox.SelectedIndex = (int)settings.OriginalFileHandling;
+            CustomPathTextBox.Text = settings.CustomPath;
+
+            SourceFolderTextBox.Text = string.Empty;
+            TargetFolderTextBox.Text = string.Empty;
+        }
+
         private void SetDefaultSize()
         {
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
@@ -95,6 +120,27 @@ namespace Alan.HeicConverter
                 _appWindow.Position.X,
                 _appWindow.Position.Y,
                 isMaximized);
+
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
+            var settings = new AppSettings
+            {
+                IncludeSubfolders = IncludeSubfoldersCheckBox.IsChecked ?? false,
+                JpgQuality = (int)JpgQualitySlider.Value,
+                ConflictResolution = (ConflictResolution)ConflictResolutionComboBox.SelectedIndex,
+                OriginalFileHandling = (OriginalFileHandling)OriginalFileHandlingComboBox.SelectedIndex,
+                CustomPath = CustomPathTextBox.Text
+            };
+
+            if (JpgButton.IsChecked == true) settings.Format = OutputFormat.Jpg;
+            else if (PngButton.IsChecked == true) settings.Format = OutputFormat.Png;
+            else if (GifButton.IsChecked == true) settings.Format = OutputFormat.Gif;
+            else if (BmpButton.IsChecked == true) settings.Format = OutputFormat.Bmp;
+
+            StorageService.SaveAppSettings(settings);
         }
 
         private void JpgQualitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
