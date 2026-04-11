@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,6 +31,8 @@ namespace Alan.HeicConverter
 
         private Microsoft.UI.Windowing.AppWindow _appWindow;
 
+        public ObservableCollection<FileItem> Files { get; } = new();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +40,8 @@ namespace Alan.HeicConverter
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
             _appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            FileListView.ItemsSource = Files;
 
             RestoreWindowState();
             LoadSettings();
@@ -196,6 +201,98 @@ namespace Alan.HeicConverter
             if (folder != null)
             {
                 CustomPathTextBox.Text = folder.Path;
+            }
+        }
+
+        private async void BrowseSourceFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            folderPicker.FileTypeFilter.Add("*");
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                SourceFolderTextBox.Text = folder.Path;
+                
+                if (string.IsNullOrWhiteSpace(TargetFolderTextBox.Text))
+                {
+                    TargetFolderTextBox.Text = folder.Path;
+                }
+
+                ScanFolder(folder.Path);
+            }
+        }
+
+        private void ScanFolder(string path)
+        {
+            Files.Clear();
+            
+            if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            {
+                return;
+            }
+
+            try
+            {
+                bool includeSubfolders = IncludeSubfoldersCheckBox.IsChecked ?? false;
+                var searchOption = includeSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                
+                var heicFiles = Directory.EnumerateFiles(path, "*.heic", searchOption);
+
+                foreach (var file in heicFiles)
+                {
+                    var fileInfo = new FileInfo(file);
+                    Files.Add(new FileItem
+                    {
+                        Path = fileInfo.DirectoryName ?? string.Empty,
+                        OriginalName = fileInfo.Name,
+                        ConvertedName = string.Empty,
+                        Status = FileStatus.Ready
+                    });
+                }
+
+                UpdateFooter();
+            }
+            catch (Exception ex)
+            {
+                // In a real app, show a message dialog
+                System.Diagnostics.Debug.WriteLine($"Error scanning folder: {ex.Message}");
+            }
+        }
+
+        private void UpdateFooter()
+        {
+            int total = Files.Count;
+            int completed = Files.Count(f => f.Status == FileStatus.Completed);
+            
+            FileCountTextBlock.Text = $"{completed} / {total} files";
+            
+            if (total > 0)
+            {
+                double percentage = (double)completed / total * 100;
+                ConversionProgressBar.Value = percentage;
+                PercentageTextBlock.Text = $"{(int)percentage}%";
+            }
+            else
+            {
+                ConversionProgressBar.Value = 0;
+                PercentageTextBlock.Text = "0%";
+            }
+        }
+
+        private async void BrowseTargetFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            folderPicker.FileTypeFilter.Add("*");
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                TargetFolderTextBox.Text = folder.Path;
             }
         }
     }

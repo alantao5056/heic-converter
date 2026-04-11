@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Alan.HeicConverter.Controls.FileStatusBadge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Alan.HeicConverter.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border x:Name="RootBorder" CornerRadius="4" HorizontalAlignment="Left" Padding="8,4">
+        <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+            <!-- ProgressRing for Converting -->
+            <ProgressRing x:Name="StatusProgressRing" Width="12" Height="12" MinWidth="12" MinHeight="12" Visibility="Collapsed" />
+            
+            <!-- FontIcon for other statuses -->
+            <FontIcon x:Name="StatusIcon" FontSize="12" Visibility="Visible" />
+            
+            <TextBlock x:Name="StatusTextBlock" FontSize="12" FontWeight="Medium" />
+        </StackPanel>
+    </Border>
+</UserControl>

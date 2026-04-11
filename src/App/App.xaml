@@ -11,6 +11,35 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <SolidColorBrush x:Key="SidebarBackground" Color="#F3F3F0" />
+            <SolidColorBrush x:Key="MainBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="AccentColor" Color="#185FA5" />
+            <SolidColorBrush x:Key="AccentLightColor" Color="#E6F1FB" />
+            <SolidColorBrush x:Key="PrimaryButtonBackground" Color="#2E86C1" />
+            <SolidColorBrush x:Key="PrimaryButtonHoverBackground" Color="#1A6FA0" />
+            <SolidColorBrush x:Key="BorderLightColor" Color="#1E000000" />
+            <SolidColorBrush x:Key="BorderMidColor" Color="#38000000" />
+            
+            <SolidColorBrush x:Key="TextPrimaryColor" Color="#1A1A18" />
+            <SolidColorBrush x:Key="TextSecondaryColor" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="TextTertiaryColor" Color="#888780" />
+            
+            <SolidColorBrush x:Key="GreenBgColor" Color="#EAF3DE" />
+            <SolidColorBrush x:Key="GreenBorderColor" Color="#92B077" />
+            <SolidColorBrush x:Key="GreenTextColor" Color="#3B6D11" />
+            <SolidColorBrush x:Key="AmberBgColor" Color="#FAEEDA" />
+            <SolidColorBrush x:Key="AmberBorderColor" Color="#BF9E72" />
+            <SolidColorBrush x:Key="AmberTextColor" Color="#854F0B" />
+            <SolidColorBrush x:Key="RedBgColor" Color="#FCEBEB" />
+            <SolidColorBrush x:Key="RedBorderColor" Color="#CF8C8C" />
+            <SolidColorBrush x:Key="RedTextColor" Color="#A32D2D" />
+            
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
