@@ -33,6 +33,51 @@
             <SolidColorBrush x:Key="RedBgColor" Color="#FCEBEB" />
             <SolidColorBrush x:Key="RedBorderColor" Color="#CF8C8C" />
             <SolidColorBrush x:Key="RedTextColor" Color="#A32D2D" />
+            
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
+            
+            <Style x:Key="FormatToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource DefaultToggleButtonStyle}">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Padding" Value="0,6" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
+
+            <Style x:Key="FolderPathTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="Padding" Value="10,6" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderLightColor}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="4" />
+            </Style>
+
+            <Style x:Key="SidebarTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource FolderPathTextBoxStyle}">
+                <Setter Property="Background" Value="{StaticResource MainBackground}" />
+            </Style>
+
+            <Style x:Key="MainPanelTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource FolderPathTextBoxStyle}">
+                <Setter Property="Background" Value="{StaticResource SidebarBackground}" />
+            </Style>
+
+            <Style x:Key="BrowseButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                <Setter Property="Margin" Value="8,0,0,0" />
+                <Setter Property="Padding" Value="8,6" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderMidColor}" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}" />
+            </Style>
         </Grid.Resources>
         
         <Grid.ColumnDefinitions>
@@ -42,6 +87,12 @@
         
         <!-- Sidebar -->
         <Border Grid.Column="0" Background="{StaticResource SidebarBackground}" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,1,0">
+            <Border.Resources>
+                <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#FFFFFF" />
+                <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
+                <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
+                <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
+            </Border.Resources>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -100,10 +151,10 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <ToggleButton x:Name="JpgButton" Content="JPG" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" IsChecked="True" Click="FormatButton_Click" />
-                                <ToggleButton x:Name="PngButton" Content="PNG" FontSize="12" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
-                                <ToggleButton x:Name="GifButton" Content="GIF" FontSize="12" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
-                                <ToggleButton x:Name="BmpButton" Content="BMP" FontSize="12" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0,6" CornerRadius="4" BorderThickness="1" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="JpgButton" Content="JPG" Style="{StaticResource FormatToggleButtonStyle}" Grid.Row="0" Grid.Column="0" IsChecked="True" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="PngButton" Content="PNG" Style="{StaticResource FormatToggleButtonStyle}" Grid.Row="0" Grid.Column="1" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="GifButton" Content="GIF" Style="{StaticResource FormatToggleButtonStyle}" Grid.Row="1" Grid.Column="0" Click="FormatButton_Click" />
+                                <ToggleButton x:Name="BmpButton" Content="BMP" Style="{StaticResource FormatToggleButtonStyle}" Grid.Row="1" Grid.Column="1" Click="FormatButton_Click" />
                             </Grid>
                         </StackPanel>
                         
@@ -140,23 +191,8 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox x:Name="CustomPathTextBox" Grid.Column="0" Text="" IsReadOnly="True" Background="{StaticResource MainBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4" PlaceholderText="Select a folder...">
-                                    <TextBox.Resources>
-                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#FFFFFF" />
-                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
-                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
-                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
-                                    </TextBox.Resources>
-                                </TextBox>
-                                <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}" Click="BrowseCustomPathButton_Click">
-                                    <Button.Resources>
-                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
-                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
-                                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
-                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
-                                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
-                                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
-                                    </Button.Resources>
+                                <TextBox x:Name="CustomPathTextBox" Grid.Column="0" Text="" PlaceholderText="Select a folder..." Style="{StaticResource SidebarTextBoxStyle}" />
+                                <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseCustomPathButton_Click">
                                     <FontIcon Glyph="&#xED25;" FontSize="16" />
                                 </Button>
                             </Grid>
@@ -193,6 +229,12 @@
 
         <!-- Main Panel -->
         <Grid Grid.Column="1" Background="{StaticResource MainBackground}">
+            <Grid.Resources>
+                <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F3F3F0" />
+                <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#F3F3F0" />
+                <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
+                <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -210,23 +252,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC" IsReadOnly="True" Background="{StaticResource SidebarBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4">
-                                <TextBox.Resources>
-                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
-                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
-                                </TextBox.Resources>
-                            </TextBox>
-                            <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
-                                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
-                                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
-                                </Button.Resources>
+                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC" Style="{StaticResource MainPanelTextBoxStyle}" />
+                            <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>
                         </Grid>
@@ -238,23 +265,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC\Converted" IsReadOnly="True" Background="{StaticResource SidebarBackground}" Foreground="{StaticResource TextSecondaryColor}" FontSize="13" MinHeight="28" Padding="10,6" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="1" CornerRadius="4">
-                                <TextBox.Resources>
-                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#1E000000" />
-                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#1E000000" />
-                                </TextBox.Resources>
-                            </TextBox>
-                            <Button Grid.Column="1" Margin="8,0,0,0" Padding="8,6" BorderThickness="1" BorderBrush="{StaticResource BorderMidColor}" CornerRadius="4" Background="Transparent" Foreground="{StaticResource TextSecondaryColor}">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F3F3F0" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#5F5E5A" />
-                                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#1E000000" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5E5E2" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#5F5E5A" />
-                                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#38000000" />
-                                </Button.Resources>
+                            <TextBox Grid.Column="0" Text="C:\Users\Admin\Pictures\Vacation_HEIC\Converted" Style="{StaticResource MainPanelTextBoxStyle}" />
+                            <Button Grid.Column="1" Style="{StaticResource BrowseButtonStyle}">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
                             </Button>
                         </Grid>
