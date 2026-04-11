@@ -181,14 +181,14 @@
                         <Border Grid.Column="0" Background="{StaticResource GreenBgColor}" BorderBrush="{StaticResource GreenBorderColor}" BorderThickness="1" CornerRadius="4" VerticalAlignment="Center" Padding="0,4">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
                                 <FontIcon Glyph="&#xE73E;" FontSize="10" Foreground="{StaticResource GreenTextColor}" />
-                                <TextBlock Text="58 done" FontSize="12" FontWeight="Medium" Foreground="{StaticResource GreenTextColor}" />
+                                <TextBlock x:Name="StatsDoneTextBlock" Text="0 done" FontSize="12" FontWeight="Medium" Foreground="{StaticResource GreenTextColor}" />
                             </StackPanel>
                         </Border>
                         
                         <Border Grid.Column="2" Background="{StaticResource RedBgColor}" BorderBrush="{StaticResource RedBorderColor}" BorderThickness="1" CornerRadius="4" VerticalAlignment="Center" Padding="0,4">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
                                 <FontIcon Glyph="&#xE711;" FontSize="10" Foreground="{StaticResource RedTextColor}" />
-                                <TextBlock Text="2 failed" FontSize="12" FontWeight="Medium" Foreground="{StaticResource RedTextColor}" />
+                                <TextBlock x:Name="StatsFailedTextBlock" Text="0 failed" FontSize="12" FontWeight="Medium" Foreground="{StaticResource RedTextColor}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -245,7 +245,7 @@
             
             <!-- Action Bar -->
             <Border Grid.Row="1" BorderBrush="{StaticResource BorderLightColor}" BorderThickness="0,0,0,1" Padding="20,10">
-                <Button Background="{StaticResource PrimaryButtonBackground}" Foreground="White" HorizontalAlignment="Right" Padding="12,8" CornerRadius="4">
+                <Button x:Name="StartConversionButton" Click="StartConversionButton_Click" Background="{StaticResource PrimaryButtonBackground}" Foreground="White" HorizontalAlignment="Right" Padding="12,8" CornerRadius="4">
                     <Button.Resources>
                         <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1A6FA0" />
                         <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
@@ -286,7 +286,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{x:Bind Path}" ToolTipService.ToolTip="{x:Bind Path}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
                             <TextBlock Grid.Column="1" Text="{x:Bind OriginalName}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
-                            <TextBlock Grid.Column="2" Text="{x:Bind ConvertedName}" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                            <TextBlock Grid.Column="2" Text="{x:Bind ConvertedName, Mode=OneWay}" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
                             
                             <controls:FileStatusBadge Grid.Column="3" Status="{x:Bind Status, Mode=OneWay}" />
                         </Grid>

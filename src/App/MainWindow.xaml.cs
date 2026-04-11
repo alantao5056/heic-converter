@@ -264,7 +264,7 @@ namespace Alan.HeicConverter
                     });
                 }
 
-                UpdateFooter();
+                UpdateFooter(0);
             }
             catch (Exception ex)
             {
@@ -273,16 +273,15 @@ namespace Alan.HeicConverter
             }
         }
 
-        private void UpdateFooter()
+        private void UpdateFooter(int processed)
         {
             int total = Files.Count;
-            int completed = Files.Count(f => f.Status == FileStatus.Completed);
             
-            FileCountTextBlock.Text = $"{completed} / {total} files";
+            FileCountTextBlock.Text = $"{processed} / {total} files";
             
             if (total > 0)
             {
-                double percentage = (double)completed / total * 100;
+                double percentage = (double)processed / total * 100;
                 ConversionProgressBar.Value = percentage;
                 PercentageTextBlock.Text = $"{(int)percentage}%";
             }
@@ -291,6 +290,13 @@ namespace Alan.HeicConverter
                 ConversionProgressBar.Value = 0;
                 PercentageTextBlock.Text = "0%";
             }
+
+            // Update Stats Row
+            int doneCount = Files.Count(f => f.Status == FileStatus.Completed);
+            int failedCount = Files.Count(f => f.Status == FileStatus.Error);
+
+            StatsDoneTextBlock.Text = $"{doneCount} done";
+            StatsFailedTextBlock.Text = $"{failedCount} failed";
         }
 
         private async void BrowseTargetFolderButton_Click(object sender, RoutedEventArgs e)
@@ -304,6 +310,70 @@ namespace Alan.HeicConverter
             if (folder != null)
             {
                 TargetFolderTextBox.Text = folder.Path;
+            }
+        }
+
+        private async void StartConversionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Files.Count == 0) return;
+
+            StartConversionButton.IsEnabled = false;
+
+            var targetFolder = TargetFolderTextBox.Text;
+            if (string.IsNullOrWhiteSpace(targetFolder))
+            {
+                targetFolder = SourceFolderTextBox.Text;
+            }
+
+            OutputFormat format = OutputFormat.Jpg;
+            if (PngButton.IsChecked == true) format = OutputFormat.Png;
+            else if (GifButton.IsChecked == true) format = OutputFormat.Gif;
+            else if (BmpButton.IsChecked == true) format = OutputFormat.Bmp;
+
+            var options = new ConversionOptions
+            {
+                ImageQuality = (int)JpgQualitySlider.Value
+            };
+
+            int processedCount = 0;
+
+            foreach (var file in Files)
+            {
+                if (file.Status == FileStatus.Completed) 
+                {
+                    processedCount++;
+                    continue;
+                }
+
+                file.Status = FileStatus.Converting;
+
+                string sourcePath = Path.Combine(file.Path, file.OriginalName);
+
+                try
+                {
+                    // Run conversion in background to keep UI responsive
+                    var result = await System.Threading.Tasks.Task.Run(() => 
+                        FileService.Convert(sourcePath, targetFolder, format, options)
+                    );
+
+                    if (string.IsNullOrEmpty(result.ErrorMessage))
+                    {
+                        file.ConvertedName = result.ConvertedFileName;
+                        file.Status = FileStatus.Completed;
+                    }
+                    else
+                    {
+                        file.Status = FileStatus.Error;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error converting file: {ex.Message}");
+                    file.Status = FileStatus.Error;
+                }
+
+                processedCount++;
+                UpdateFooter(processedCount);
             }
         }
     }
