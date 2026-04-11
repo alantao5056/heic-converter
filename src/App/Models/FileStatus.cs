@@ -6,6 +6,8 @@ namespace Alan.HeicConverter.Models
         Pending,
         Converting,
         Completed,
-        Error
+        Error,
+        Ignored,
+        Replaced
     }
 }

@@ -12,6 +12,8 @@ namespace Alan.HeicConverter.Models
             FileStatus.Converting => "Converting...",
             FileStatus.Completed => "Completed",
             FileStatus.Error => "Error",
+            FileStatus.Ignored => "Ignored",
+            FileStatus.Replaced => "Replaced",
             _ => "Unknown"
         };
 
@@ -20,6 +22,8 @@ namespace Alan.HeicConverter.Models
             FileStatus.Ready => "\uE768",      // Play button
             FileStatus.Pending => "\uE916",    // History/Timer
             FileStatus.Completed => "\uE73E",  // Checkmark
+            FileStatus.Ignored => "\uE73E",    // Checkmark
+            FileStatus.Replaced => "\uE73E",   // Checkmark
             FileStatus.Error => "\uE711",      // Error/X
             _ => string.Empty
         };
@@ -27,6 +31,8 @@ namespace Alan.HeicConverter.Models
         public static string GetBackgroundColorResourceKey(this FileStatus status) => status switch
         {
             FileStatus.Completed => "GreenBgColor",
+            FileStatus.Ignored => "GreenBgColor",
+            FileStatus.Replaced => "GreenBgColor",
             FileStatus.Error => "RedBgColor",
             FileStatus.Pending => "AmberBgColor",
             FileStatus.Ready => "GrayBgColor",
@@ -37,6 +43,8 @@ namespace Alan.HeicConverter.Models
         public static string GetForegroundColorResourceKey(this FileStatus status) => status switch
         {
             FileStatus.Completed => "GreenTextColor",
+            FileStatus.Ignored => "GreenTextColor",
+            FileStatus.Replaced => "GreenTextColor",
             FileStatus.Error => "RedTextColor",
             FileStatus.Pending => "AmberTextColor",
             FileStatus.Ready => "GrayTextColor",

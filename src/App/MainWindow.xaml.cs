@@ -336,9 +336,10 @@ namespace Alan.HeicConverter
             SetControlsEnabled(false);
 
             var targetFolder = TargetFolderTextBox.Text;
+            var sourceBasePath = SourceFolderTextBox.Text;
             if (string.IsNullOrWhiteSpace(targetFolder))
             {
-                targetFolder = SourceFolderTextBox.Text;
+                targetFolder = sourceBasePath;
             }
 
             OutputFormat format = OutputFormat.Jpg;
@@ -348,7 +349,10 @@ namespace Alan.HeicConverter
 
             var options = new ConversionOptions
             {
-                ImageQuality = (int)JpgQualitySlider.Value
+                ImageQuality = (int)JpgQualitySlider.Value,
+                ConflictResolution = (ConflictResolution)ConflictResolutionComboBox.SelectedIndex,
+                OriginalFileHandling = OriginalFileHandlingComboBox.SelectedItem is FileHandlingOption opt ? opt.Value : OriginalFileHandling.Keep,
+                CustomMovePath = CustomPathTextBox.Text
             };
 
             int processedCount = 0;
@@ -378,14 +382,25 @@ namespace Alan.HeicConverter
                     try
                     {
                         // Run conversion in background to keep UI responsive
-                        var result = await System.Threading.Tasks.Task.Run(() => 
-                            FileService.Convert(sourcePath, targetFolder, format, options)
+                        var result = await System.Threading.Tasks.Task.Run(async () => 
+                            await FileService.ConvertAsync(sourcePath, sourceBasePath, targetFolder, format, options)
                         );
 
                         if (string.IsNullOrEmpty(result.ErrorMessage))
                         {
                             file.ConvertedName = result.ConvertedFileName;
-                            file.Status = FileStatus.Completed;
+                            if (result.Ignored)
+                            {
+                                file.Status = FileStatus.Ignored;
+                            }
+                            else if (result.Replaced)
+                            {
+                                file.Status = FileStatus.Replaced;
+                            }
+                            else
+                            {
+                                file.Status = FileStatus.Completed;
+                            }
                         }
                         else
                         {

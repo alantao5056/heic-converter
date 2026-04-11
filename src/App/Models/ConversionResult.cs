@@ -10,5 +10,7 @@ namespace Alan.HeicConverter.Models
     {
         public string ConvertedFileName { get; set; } = string.Empty;
         public string? ErrorMessage { get; set; }
+        public bool Ignored { get; set; } = false;
+        public bool Replaced { get; set; } = false;
     }
 }
