@@ -186,6 +186,19 @@ namespace Alan.HeicConverter
                 {
                     JpgQualityPanel.Visibility = (clickedButton == JpgButton) ? Visibility.Visible : Visibility.Collapsed;
                 }
+
+                OutputFormat newFormat = OutputFormat.Jpg;
+                if (clickedButton == PngButton) newFormat = OutputFormat.Png;
+                else if (clickedButton == GifButton) newFormat = OutputFormat.Gif;
+                else if (clickedButton == BmpButton) newFormat = OutputFormat.Bmp;
+
+                foreach (var file in Files)
+                {
+                    file.CurrentFormat = newFormat;
+                }
+
+                int processedCount = Files.Count(f => f.Status != FileStatus.Ready && f.Status != FileStatus.Pending && f.Status != FileStatus.Converting);
+                UpdateFooter(processedCount);
             }
         }
 
@@ -307,7 +320,7 @@ namespace Alan.HeicConverter
             }
 
             // Update Stats Row
-            int doneCount = Files.Count(f => f.Status == FileStatus.Completed);
+            int doneCount = Files.Count(f => f.Status == FileStatus.Completed || f.Status == FileStatus.Ignored || f.Status == FileStatus.Replaced);
             int failedCount = Files.Count(f => f.Status == FileStatus.Error);
 
             StatsDoneTextBlock.Text = $"{doneCount} done";
@@ -355,24 +368,30 @@ namespace Alan.HeicConverter
                 CustomMovePath = CustomPathTextBox.Text
             };
 
-            int processedCount = 0;
+            List<FileItem> pendingFiles = new List<FileItem>();
+
+            foreach (var file in Files)
+            {
+                if (file.Status == FileStatus.Pending
+                    || file.Status == FileStatus.Error 
+                    || file.Status == FileStatus.Ready
+                    || (file.Status == FileStatus.Ignored && options.ConflictResolution != ConflictResolution.Ignore))
+                {
+                    file.Status = FileStatus.Pending;
+                    pendingFiles.Add(file);
+                }
+            }
+
+            if (pendingFiles.Count == 0)
+            {
+                SetControlsEnabled(true);
+                return;
+            }
+
+            int processedCount = Files.Count - pendingFiles.Count;
 
             try
             {
-                var pendingFiles = new System.Collections.Generic.List<FileItem>();
-                foreach (var file in Files)
-                {
-                    if (file.Status != FileStatus.Completed)
-                    {
-                        file.Status = FileStatus.Pending;
-                        pendingFiles.Add(file);
-                    }
-                    else
-                    {
-                        processedCount++;
-                    }
-                }
-
                 foreach (var file in pendingFiles)
                 {
                     file.Status = FileStatus.Converting;

@@ -288,7 +288,7 @@
                                 <ColumnDefinition Width="136" />
                                 <ColumnDefinition Width="136" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{x:Bind Path}" ToolTipService.ToolTip="{x:Bind Path}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                            <TextBlock Grid.Column="0" Text="{x:Bind Path}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
                             <TextBlock Grid.Column="1" Text="{x:Bind OriginalName}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
                             <TextBlock Grid.Column="2" Text="{x:Bind ConvertedName, Mode=OneWay}" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
                             

@@ -8,15 +8,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border x:Name="RootBorder" CornerRadius="4" HorizontalAlignment="Left" Padding="8,3">
+    <Border x:Name="RootBorder" CornerRadius="4" HorizontalAlignment="Left" Padding="8,4">
         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
             <!-- ProgressRing for Converting -->
             <ProgressRing x:Name="StatusProgressRing" Width="12" Height="12" MinWidth="12" MinHeight="12" Visibility="Collapsed" />
             
             <!-- FontIcon for other statuses -->
-            <FontIcon x:Name="StatusIcon" FontSize="12" Visibility="Visible" />
-            
-            <TextBlock x:Name="StatusTextBlock" FontSize="12" FontWeight="Medium" />
+            <FontIcon x:Name="StatusIcon" FontSize="12" Width="12" Height="12" MinWidth="12" MinHeight="12" Visibility="Visible" />
+
+            <TextBlock x:Name="StatusTextBlock" FontSize="11" FontWeight="Medium" VerticalAlignment="Center" />
         </StackPanel>
     </Border>
 </UserControl>

@@ -19,7 +19,7 @@ namespace Alan.HeicConverter.Models
 
         public static string GetStatusGlyph(this FileStatus status) => status switch
         {
-            FileStatus.Ready => "\uE768",      // Play button
+            FileStatus.Ready => "\uE915",      // Radio button
             FileStatus.Pending => "\uE916",    // History/Timer
             FileStatus.Completed => "\uE73E",  // Checkmark
             FileStatus.Ignored => "\uE73E",    // Checkmark
