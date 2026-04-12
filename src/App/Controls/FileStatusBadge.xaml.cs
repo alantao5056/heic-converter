@@ -26,7 +26,28 @@ namespace Alan.HeicConverter.Controls
             set => SetValue(StatusProperty, value);
         }
 
+        public static readonly DependencyProperty ErrorMessageProperty =
+            DependencyProperty.Register(
+                nameof(ErrorMessage),
+                typeof(string),
+                typeof(FileStatusBadge),
+                new PropertyMetadata(null, OnErrorMessageChanged));
+
+        public string? ErrorMessage
+        {
+            get => (string?)GetValue(ErrorMessageProperty);
+            set => SetValue(ErrorMessageProperty, value);
+        }
+
         private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FileStatusBadge control)
+            {
+                control.UpdateUI();
+            }
+        }
+
+        private static void OnErrorMessageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FileStatusBadge control)
             {
@@ -38,6 +59,16 @@ namespace Alan.HeicConverter.Controls
         {
             // Set Text
             StatusTextBlock.Text = Status.GetStatusText();
+
+            // Handle Tooltip for Errors
+            if (Status == FileStatus.Error && !string.IsNullOrEmpty(ErrorMessage))
+            {
+                ToolTipService.SetToolTip(RootBorder, ErrorMessage);
+            }
+            else
+            {
+                ToolTipService.SetToolTip(RootBorder, null);
+            }
 
             // Set Visibility and Glyph
             if (Status == FileStatus.Converting)

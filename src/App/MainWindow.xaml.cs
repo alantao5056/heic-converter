@@ -259,6 +259,14 @@ namespace Alan.HeicConverter
             }
         }
 
+        private void ResetTableButtonTopbar_Click(object sender, RoutedEventArgs e)
+        {
+            if (SourceFolderTextBox != null && !string.IsNullOrWhiteSpace(SourceFolderTextBox.Text))
+            {
+                ScanFolder(SourceFolderTextBox.Text);
+            }
+        }
+
         private void ScanFolder(string path)
         {
             Files.Clear();
@@ -385,6 +393,7 @@ namespace Alan.HeicConverter
             if (pendingFiles.Count == 0)
             {
                 SetControlsEnabled(true);
+                StartConversionButton.IsEnabled = true;
                 return;
             }
 
@@ -407,6 +416,7 @@ namespace Alan.HeicConverter
 
                         if (string.IsNullOrEmpty(result.ErrorMessage))
                         {
+                            file.ErrorMessage = null;
                             file.ConvertedName = result.ConvertedFileName;
                             if (result.Ignored)
                             {
@@ -423,12 +433,14 @@ namespace Alan.HeicConverter
                         }
                         else
                         {
+                            file.ErrorMessage = result.ErrorMessage;
                             file.Status = FileStatus.Error;
                         }
                     }
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine($"Error converting file: {ex.Message}");
+                        file.ErrorMessage = ex.Message;
                         file.Status = FileStatus.Error;
                     }
 
@@ -439,7 +451,7 @@ namespace Alan.HeicConverter
             finally
             {
                 SetControlsEnabled(true);
-                UpdateStartConversionButtonStatus();
+                StartConversionButton.IsEnabled = true;
             }
         }
 

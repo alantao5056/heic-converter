@@ -19,7 +19,26 @@ namespace Alan.HeicConverter.Models
                 {
                     OnPropertyChanged(nameof(ConvertedName));
                     OnPropertyChanged(nameof(Status));
+                    OnPropertyChanged(nameof(ErrorMessage));
                 }
+            }
+        }
+
+        private readonly Dictionary<OutputFormat, string> _errorMessages = new();
+        public string? ErrorMessage
+        {
+            get => _errorMessages.TryGetValue(_currentFormat, out var error) ? error : null;
+            set
+            {
+                if (value != null)
+                {
+                    _errorMessages[_currentFormat] = value;
+                }
+                else
+                {
+                    _errorMessages.Remove(_currentFormat);
+                }
+                OnPropertyChanged();
             }
         }
 

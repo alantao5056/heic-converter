@@ -220,10 +220,14 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="SourceFolderTextBox" Grid.Column="0" Text="" Style="{StaticResource MainPanelTextBoxStyle}" />
                             <Button x:Name="BrowseSourceFolderButton" Grid.Column="1" Style="{StaticResource BrowseButtonStyle}" Click="BrowseSourceFolderButton_Click">
                                 <FontIcon Glyph="&#xED25;" FontSize="16" />
+                            </Button>
+                            <Button x:Name="ResetTableButtonTopbar" Grid.Column="2" Style="{StaticResource BrowseButtonStyle}" ToolTipService.ToolTip="Rescan folder and reset all file statuses" Click="ResetTableButtonTopbar_Click">
+                                <FontIcon Glyph="&#xE72C;" FontSize="16" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -292,7 +296,7 @@
                             <TextBlock Grid.Column="1" Text="{x:Bind OriginalName}" Foreground="{StaticResource TextSecondaryColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
                             <TextBlock Grid.Column="2" Text="{x:Bind ConvertedName, Mode=OneWay}" Foreground="{StaticResource AccentColor}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
                             
-                            <controls:FileStatusBadge Grid.Column="3" Status="{x:Bind Status, Mode=OneWay}" />
+                            <controls:FileStatusBadge Grid.Column="3" Status="{x:Bind Status, Mode=OneWay}" ErrorMessage="{x:Bind ErrorMessage, Mode=OneWay}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
