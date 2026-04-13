@@ -57,6 +57,62 @@ namespace Alan.HeicConverter
             LoadSettings();
 
             this.Closed += MainWindow_Closed;
+
+            if (this.Content is FrameworkElement rootElement)
+            {
+                rootElement.Loaded += RootElement_Loaded;
+            }
+        }
+
+        private async void RootElement_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement rootElement)
+            {
+                rootElement.Loaded -= RootElement_Loaded;
+            }
+
+            var appService = new AppService();
+            bool hasUpdate = await appService.HasMandatoryUpdateAsync();
+            if (hasUpdate)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "Mandatory Update Required",
+                    Content = "There is a mandatory update available on the Microsoft Store. Please update the app to continue using it.",
+                    PrimaryButtonText = "Update Now",
+                    CloseButtonText = "Exit App",
+                    XamlRoot = this.Content.XamlRoot
+                };
+
+                var result = await dialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    // Launch Microsoft Store app page
+                    var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+                    string productId = await appService.GetStoreProductIdAsync(hwnd);
+                    
+                    if (!string.IsNullOrEmpty(productId))
+                    {
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri($"ms-windows-store://pdp/?ProductId={productId}"));
+                    }
+                    else
+                    {
+                        try
+                        {
+                            // Fallback to dynamic PFN if Product ID could not be retrieved
+                            string pfn = Windows.ApplicationModel.Package.Current.Id.FamilyName;
+                            await Windows.System.Launcher.LaunchUriAsync(new Uri($"ms-windows-store://pdp/?PFN={pfn}"));
+                        }
+                        catch
+                        {
+                            // Ignore
+                        }
+                    }
+                }
+
+                Application.Current.Exit();
+            }
         }
 
         private void RestoreWindowState()
