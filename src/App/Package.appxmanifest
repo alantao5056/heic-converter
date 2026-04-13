@@ -11,7 +11,7 @@
   <Identity
     Name="AlanTao.HEICtoJPGbatchconverter"
     Publisher="CN=E55EA33F-7D5A-4638-86DF-F18ECFF57888"
-    Version="2.0.0.0" />
+    Version="2.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="2b90b7cf-5ffb-4d01-9a5f-3027464feb2f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
