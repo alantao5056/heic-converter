@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HEIC Batch Converter — Microsoft Store Poster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1366px;
+    height: 768px;
+    overflow: hidden;
+    font-family: 'Sora', sans-serif;
+  }
+
+  .poster {
+    width: 1366px;
+    height: 768px;
+    position: relative;
+    overflow: hidden;
+    background: #070D1B;
+  }
+
+  /* ── Background ── */
+  .bg-base {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 65% 90% at 10% 50%, rgba(22,50,105,0.58) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 58% 18%, rgba(12,30,70,0.4) 0%, transparent 60%),
+      #070D1B;
+  }
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+    background-size: 52px 52px;
+    mask-image: radial-gradient(ellipse 60% 85% at 22% 50%, black 10%, transparent 72%);
+  }
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); pointer-events: none;
+  }
+  .orb-1 { width: 400px; height: 400px; background: rgba(20,70,160,0.22); top: -80px; left: -80px; }
+  .orb-2 { width: 280px; height: 280px; background: rgba(245,160,24,0.10); bottom: -50px; left: 100px; }
+  .orb-3 { width: 320px; height: 320px; background: rgba(66,133,216,0.08); top: 80px; right: 280px; }
+
+  /* ── UI MOCKUP ── */
+  .ui-stage {
+    position: absolute;
+    right: 14px;
+    top: 38%;
+    transform: translateY(-50%) perspective(1000px) rotateY(-11deg) rotateX(3deg) rotate(1.5deg);
+    transform-origin: right center;
+    width: 880px;
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 0.5px rgba(255,255,255,0.07),
+      -18px 28px 70px rgba(0,0,0,0.60),
+      -4px 6px 36px rgba(24,95,165,0.16);
+    filter: blur(0.3px) saturate(0.88);
+  }
+  .ui-stage::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(7,13,27,0.80) 0%, rgba(7,13,27,0.20) 20%, transparent 46%);
+    z-index: 20; pointer-events: none;
+  }
+  .ui-inner {
+    width: 100%; height: 100%;
+    display: flex;
+    background: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .ui-sb {
+    width: 180px; min-width: 180px;
+    background: #f3f3f0;
+    border-right: 0.5px solid rgba(0,0,0,0.1);
+    padding: 15px 11px 0;
+    display: flex; flex-direction: column;
+  }
+  .ui-sb-title { font-size: 11px; font-weight: 600; color: #1a1a18; margin-bottom: 1px; }
+  .ui-sb-ver   { font-size: 8.5px; color: #888780; margin-bottom: 9px; }
+  .ui-sb hr    { border: none; border-top: 0.5px solid rgba(0,0,0,0.1); margin-bottom: 13px; }
+  .ui-sg       { margin-bottom: 13px; }
+  .ui-sl       { font-size: 8.5px; font-weight: 600; color: #185FA5; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 5px; }
+  .ui-fmts     { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .ui-fmt      { padding: 4px 0; font-size: 10px; color: #5f5e5a; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 3px; text-align: center; background: #fff; }
+  .ui-fmt.a    { border-color: #185FA5; color: #185FA5; background: #E6F1FB; }
+  .ui-sel      { width: 100%; padding: 4px 6px; font-size: 10px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 3px; background: #fff; color: #1a1a18; }
+  .ui-stat-row { display: flex; gap: 6px; margin-top: auto; border-top: 0.5px solid rgba(0,0,0,0.1); padding: 7px 0; }
+  .ui-chip     { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 9.5px; font-weight: 600; padding: 3px 4px; border-radius: 3px; }
+  .ui-chip-ok  { background: #EAF3DE; color: #3B6D11; }
+  .ui-chip-fail{ background: #FCEBEB; color: #A32D2D; }
+  .ui-track    { height: 3px; background: rgba(0,0,0,0.1); border-radius: 2px; position: relative; margin-bottom: 11px; }
+  .ui-fill     { height: 3px; background: #185FA5; border-radius: 2px; width: 85%; }
+  .ui-thumb    { width: 11px; height: 11px; background: #fff; border: 2px solid #185FA5; border-radius: 50%; position: absolute; top: -4px; left: calc(85% - 5px); }
+  .qrow        { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .ui-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .ui-topbar { padding: 9px 13px; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+  .ui-flabel { font-size: 7.5px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .ui-fi { display: flex; align-items: center; gap: 5px; margin-bottom: 7px; }
+  .ui-fi:last-child { margin-bottom: 0; }
+  .ui-fp { flex: 1; padding: 4px 7px; font-size: 10px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 3px; background: #f3f3f0; color: #5f5e5a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ui-fiico { width: 21px; height: 21px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ui-abar { display: flex; justify-content: flex-end; padding: 7px 13px; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+  .ui-btn { padding: 5px 13px; font-size: 10px; font-weight: 600; background: #2E86C1; color: #fff; border: none; border-radius: 3px; display: flex; align-items: center; gap: 5px; }
+  .ui-tri { width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid #fff; }
+  .ui-table-wrap { flex: 1; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { padding: 5px 11px; font-size: 7.5px; font-weight: 500; color: #888780; text-align: left; letter-spacing: .05em; text-transform: uppercase; border-bottom: 0.5px solid rgba(0,0,0,0.1); background: #fff; }
+  tbody tr { border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  td { padding: 7px 11px; font-size: 10px; color: #5f5e5a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td.link { color: #185FA5; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+  .badge-done { background: #EAF3DE; color: #3B6D11; }
+  .badge-cvt  { background: #E6F1FB; color: #185FA5; }
+  .badge-pend { background: #FAEEDA; color: #854F0B; }
+  .spin { display: inline-block; width: 8px; height: 8px; border: 1.5px solid #B5D4F4; border-top-color: #185FA5; border-radius: 50%; animation: spin .7s linear infinite; }
+  .ic-check { width: 8px; height: 6px; border-left: 1.5px solid #3B6D11; border-bottom: 1.5px solid #3B6D11; transform: rotate(-45deg) translateY(-1px); display: inline-block; }
+  .ic-dot   { width: 5px; height: 5px; border-radius: 50%; background: #854F0B; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ui-footer { padding: 0 13px; border-top: 0.5px solid rgba(0,0,0,0.1); display: flex; align-items: center; gap: 9px; height: 34px; }
+  .ui-prog { flex: 1; height: 4px; background: rgba(0,0,0,0.1); border-radius: 2px; overflow: hidden; }
+  .ui-prog-fill { height: 4px; background: #185FA5; width: 42%; }
+  .ui-prog-count { font-size: 9px; color: #888780; }
+  .ui-prog-pct   { font-size: 10px; font-weight: 600; color: #185FA5; }
+
+  /* ── HERO LEFT ── */
+  .hero {
+    position: absolute;
+    left: 68px;
+    top: 52px;           /* nudged up — less top breathing room */
+    width: 530px;
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+  }
+
+  .logo-wrap { margin-bottom: 18px; }
+
+  .eyebrow {
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,160,24,0.78);
+    margin-bottom: 80px;
+  }
+
+  .title {
+    font-size: 58px; font-weight: 800;
+    line-height: 1.02; letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+  }
+  .title span { color: #4FA8E8; }
+
+  .tagline {
+    font-size: 16px; font-weight: 300;
+    color: rgba(255,255,255,0.50);
+    line-height: 1.58; 
+    margin-bottom: 100px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Format row ── */
+  .fmt-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.09);
+    border-radius: 10px;
+    padding: 16px 22px;
+  }
+  .fmt-source {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .fmt-src-label {
+    font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.32);
+  }
+  .fmt-src-name {
+    font-size: 32px; font-weight: 800; letter-spacing: -0.02em;
+    color: #FFFFFF;
+  }
+
+  /* ── Bold chunky arrow ── */
+  .fmt-arrow {
+    padding: 0 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .fmt-targets {
+    display: flex; gap: 0; align-items: stretch;
+  }
+  .fmt-target {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 0 14px;
+  }
+  .fmt-target + .fmt-target {
+    border-left: 0.5px solid rgba(255,255,255,0.1);
+  }
+  .fmt-tgt-label {
+    font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.28);
+  }
+  .fmt-tgt-name {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.02em;
+  }
+
+  /* ── FEATURES PANEL (right, vertically centered) ── */
+  .features-panel {
+    position: absolute;
+    left: 650px;
+    top: 600px;
+    transform: translateY(-50%);
+    width: 310px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feat {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #4FA8E8;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    width: 310px;
+  }
+  .feat-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+    box-shadow:0 0 8px;
+  }
+  .feat-body { display: flex; flex-direction: column; gap: 2px; }
+  .feat-title {
+    font-size: 16px; 
+    font-weight: 600;
+    color: #f2f2f2;
+    margin-bottom: 6px;
+  }
+  .feat-desc {
+    font-size: 14px; 
+    font-weight: 300;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.2;
+  }
+
+  .feat.lt {
+    left: 660px;
+    top: 500px;
+    background: rgba(232, 64, 48, 0.65);
+  }
+
+  .feat.lt .feat-dot {
+    background: #E84030;
+    box-shadow: 0 0 8px rgba(232,64,48,0.55);
+  }
+
+  .feat.lb {
+    left: 660px;
+    top: 610px;
+    background: rgba(66, 133, 216, 0.65);
+  }
+
+  .feat.lb .feat-dot {
+    background: #4285D8;
+    box-shadow: 0 0 8px rgba(66,133,216,0.55);
+  }
+
+  .feat.rt {
+    left: 995px;
+    top: 500px;
+    background: rgba(245, 160, 24, 0.65);
+  }
+
+  .feat.rt .feat-dot {
+    background: #F5A018;
+    box-shadow: 0 0 8px rgba(245,160,24,0.55);
+  }
+
+  .feat.rb {
+    left: 995px;
+    top: 610px;
+    background: rgba(66, 184, 101, 0.65);
+  }
+
+  .feat.rb .feat-dot {
+    background: #42B865;
+    box-shadow: 0 0 8px rgba(66,184,101,0.55);
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="bg-base"></div>
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Tilted UI mockup -->
+  <div class="ui-stage">
+    <div class="ui-inner">
+      <div class="ui-sb">
+        <div class="ui-sb-title">HEIC Batch Converter</div>
+        <div class="ui-sb-ver">Version 2.0.0</div>
+        <hr>
+        <div class="ui-sg">
+          <div class="ui-sl">Search scope</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#5f5e5a;">
+            <div style="width:12px;height:12px;border-radius:2px;background:#185FA5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <div style="width:6px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px);"></div>
+            </div>
+            Include subfolders
+          </div>
+        </div>
+        <div class="ui-sg">
+          <div class="ui-sl">Output format</div>
+          <div class="ui-fmts">
+            <div class="ui-fmt a">JPG</div>
+            <div class="ui-fmt">PNG</div>
+            <div class="ui-fmt">GIF</div>
+            <div class="ui-fmt">BMP</div>
+          </div>
+        </div>
+        <div class="ui-sg">
+          <div class="qrow"><span class="ui-sl" style="margin:0;">JPG quality</span><span style="font-size:10px;font-weight:600;color:#185FA5;">85%</span></div>
+          <div class="ui-track"><div class="ui-fill"></div><div class="ui-thumb"></div></div>
+        </div>
+        <div class="ui-sg">
+          <div class="ui-sl">Conflict resolution</div>
+          <select class="ui-sel"><option>Generate unique name</option></select>
+        </div>
+        <div class="ui-sg">
+          <div class="ui-sl">Original file handling</div>
+          <select class="ui-sel"><option>Keep</option></select>
+        </div>
+        <div class="ui-stat-row">
+          <div class="ui-chip ui-chip-ok">✓ 58 done</div>
+          <div class="ui-chip ui-chip-fail">✕ 2 failed</div>
+        </div>
+      </div>
+      <div class="ui-main">
+        <div class="ui-topbar">
+          <div>
+            <div class="ui-flabel">Source folder</div>
+            <div class="ui-fi">
+              <div class="ui-fp">C:\Users\Admin\Pictures\Vacation_HEIC</div>
+              <div class="ui-fiico"><svg width="11" height="9" viewBox="0 0 14 12" fill="none"><path d="M1 2.5C1 1.67 1.67 1 2.5 1H5l1.5 1.5H11.5C12.33 2.5 13 3.17 13 4v5.5c0 .83-.67 1.5-1.5 1.5h-9C1.67 11 1 10.33 1 9.5v-7z" stroke="#888" stroke-width="1.2" fill="none"/></svg></div>
+            </div>
+          </div>
+          <div>
+            <div class="ui-flabel">Target folder</div>
+            <div class="ui-fi">
+              <div class="ui-fp">C:\Users\Admin\Pictures\Vacation_HEIC\Converted</div>
+              <div class="ui-fiico"><svg width="11" height="9" viewBox="0 0 14 12" fill="none"><path d="M1 2.5C1 1.67 1.67 1 2.5 1H5l1.5 1.5H11.5C12.33 2.5 13 3.17 13 4v5.5c0 .83-.67 1.5-1.5 1.5h-9C1.67 11 1 10.33 1 9.5v-7z" stroke="#888" stroke-width="1.2" fill="none"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-abar">
+          <div class="ui-btn"><div class="ui-tri"></div>Start conversion</div>
+        </div>
+        <div class="ui-table-wrap">
+          <table>
+            <colgroup><col style="width:auto"><col style="width:108px"><col style="width:100px"><col style="width:95px"></colgroup>
+            <thead><tr><th>Path</th><th>Original name</th><th>Convert name</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>..\Vacation_HEIC\Summer</td><td>IMG_8421.HEIC</td><td class="link">IMG_8421.JPG</td><td><span class="badge badge-done"><span class="ic-check"></span>Completed</span></td></tr>
+              <tr><td>..\Vacation_HEIC\Summer</td><td>IMG_8422.HEIC</td><td class="link">IMG_8422.JPG</td><td><span class="badge badge-cvt"><span class="spin"></span>Converting…</span></td></tr>
+              <tr><td>..\Vacation_HEIC\Winter</td><td>IMG_8423.HEIC</td><td class="link">IMG_8423.JPG</td><td><span class="badge badge-pend"><span class="ic-dot"></span>Pending</span></td></tr>
+              <tr><td>..\Vacation_HEIC\Winter</td><td>IMG_8424.HEIC</td><td class="link">IMG_8424.JPG</td><td><span class="badge badge-pend"><span class="ic-dot"></span>Pending</span></td></tr>
+              <tr><td>..\Vacation_HEIC\Beach</td><td>IMG_8425.HEIC</td><td class="link">IMG_8425.JPG</td><td><span class="badge badge-done"><span class="ic-check"></span>Completed</span></td></tr>
+              <tr><td>..\Vacation_HEIC\Beach</td><td>IMG_8426.HEIC</td><td class="link">IMG_8426.JPG</td><td><span class="badge badge-done"><span class="ic-check"></span>Completed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-footer">
+          <div class="ui-prog"><div class="ui-prog-fill"></div></div>
+          <span class="ui-prog-count">58 / 142 files</span>
+          <span class="ui-prog-pct">42%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features panel — right side, vertically centered -->
+  <!-- <div class="features-panel"> -->
+    <div class="feat lt">
+      <div class="feat-dot"></div>
+      <div class="feat-body">
+        <div class="feat-title">Batch Conversion</div>
+        <div class="feat-desc">Process entire folders and subfolders at once</div>
+      </div>
+    </div>
+    <div class="feat lb">
+      <div class="feat-dot"></div>
+      <div class="feat-body">
+        <div class="feat-title">Quality Control</div>
+        <div class="feat-desc">Real-time JPG quality slider with precise control</div>
+      </div>
+    </div>
+    <div class="feat rt">
+      <div class="feat-dot"></div>
+      <div class="feat-body">
+        <div class="feat-title">Smart Conflict Handling</div>
+        <div class="feat-desc">Rename, replace, or skip duplicate files automatically</div>
+      </div>
+    </div>
+    <div class="feat rb">
+      <div class="feat-dot"></div>
+      <div class="feat-body">
+        <div class="feat-title">Live Progress Tracking</div>
+        <div class="feat-desc">Per-file status with success and failure stats</div>
+      </div>
+    </div>
+  <!-- </div> -->
+
+  <!-- Hero left (z-index 30, always on top) -->
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 512 512">
+        <g transform="translate(256,256) scale(1.244) translate(-256,-202)">
+          <g style="mix-blend-mode:multiply">
+            <circle cx="256" cy="128" r="102" fill="#F5A018"/>
+            <circle cx="334" cy="185" r="102" fill="#EDD018"/>
+            <circle cx="304" cy="276" r="102" fill="#42B865"/>
+            <circle cx="208" cy="276" r="102" fill="#4285D8"/>
+            <circle cx="178" cy="185" r="102" fill="#E84030"/>
+          </g>
+          <circle cx="256" cy="210" r="66" fill="#FFFFFF"/>
+          <circle cx="256" cy="210" r="57" fill="#2A2A2A"/>
+          <circle cx="256" cy="210" r="48" fill="#161616"/>
+          <circle cx="256" cy="210" r="38" fill="#1E1E1E"/>
+          <g transform="translate(256,210)">
+            <ellipse rx="31" ry="11.5" fill="#111111" transform="rotate(0)"/>
+            <ellipse rx="31" ry="11.5" fill="#111111" transform="rotate(60)"/>
+            <ellipse rx="31" ry="11.5" fill="#111111" transform="rotate(120)"/>
+          </g>
+          <circle cx="256" cy="210" r="14" fill="#080808"/>
+          <circle cx="246" cy="200" r="6.5" fill="rgba(255,255,255,0.28)"/>
+          <circle cx="263" cy="217" r="2.8" fill="rgba(255,255,255,0.13)"/>
+          <path d="M 215 193 A 50 50 0 0 1 256 162" stroke="rgba(255,255,255,0.10)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="eyebrow">Windows Desktop Application</div>
+
+    <div class="title">HEIC Batch<br><span>Converter</span></div>
+
+    <div class="tagline">Convert your photos from HEIC to popular formats<br>— fast, in bulk, with full control.</div>
+
+    <!-- Format row -->
+    <div class="fmt-row">
+      <div class="fmt-source">
+        <span class="fmt-src-name">HEIC</span>
+      </div>
+
+      <!-- Chunky double-stroke arrow -->
+      <div class="fmt-arrow">
+        <svg width="44" height="32" viewBox="0 0 44 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ag" x1="0" y1="16" x2="44" y2="16" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#F5A018" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#4FA8E8" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <!-- Shaft -->
+          <line x1="2" y1="16" x2="30" y2="16" stroke="url(#ag)" stroke-width="2.8" stroke-linecap="round"/>
+          <!-- Arrowhead — two angled lines -->
+          <polyline points="22,7 33,16 22,25" stroke="url(#ag)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="fmt-targets">
+        <div class="fmt-target">
+          <span class="fmt-tgt-name" style="color:rgba(79,168,232,0.95);">JPG</span>
+        </div>
+        <div class="fmt-target">
+          <span class="fmt-tgt-name" style="color:rgba(66,184,101,0.9);">PNG</span>
+        </div>
+        <div class="fmt-target">
+          <span class="fmt-tgt-name" style="color:rgba(237,208,24,0.9);">GIF</span>
+        </div>
+        <div class="fmt-target">
+          <span class="fmt-tgt-name" style="color:rgba(232,64,48,0.85);">BMP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

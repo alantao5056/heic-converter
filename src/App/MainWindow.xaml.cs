@@ -45,6 +45,7 @@ namespace Alan.HeicConverter
         public MainWindow()
         {
             InitializeComponent();
+            AppWindow.SetIcon("Assets/app.ico");
 
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
