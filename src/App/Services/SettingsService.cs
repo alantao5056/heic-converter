@@ -5,7 +5,7 @@ using Alan.HeicConverter.Models;
 
 namespace Alan.HeicConverter.Services
 {
-    public static class StorageService
+    public static class SettingsService
     {
         private const string WINDOW_WIDTH_KEY = "WindowWidth";
         private const string WINDOW_HEIGHT_KEY = "WindowHeight";

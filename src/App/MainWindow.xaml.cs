@@ -61,7 +61,7 @@ namespace Alan.HeicConverter
 
         private void RestoreWindowState()
         {
-            var savedSize = StorageService.GetWindowSize();
+            var savedSize = SettingsService.GetWindowSize();
             if (savedSize.HasValue)
             {
                 _appWindow.Resize(savedSize.Value);
@@ -71,13 +71,13 @@ namespace Alan.HeicConverter
                 SetDefaultSize();
             }
 
-            var savedPosition = StorageService.GetWindowPosition();
+            var savedPosition = SettingsService.GetWindowPosition();
             if (savedPosition.HasValue)
             {
                 _appWindow.Move(savedPosition.Value);
             }
 
-            if (StorageService.GetIsMaximized())
+            if (SettingsService.GetIsMaximized())
             {
                 if (_appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
                 {
@@ -88,7 +88,7 @@ namespace Alan.HeicConverter
 
         private void LoadSettings()
         {
-            var settings = StorageService.LoadAppSettings();
+            var settings = SettingsService.LoadAppSettings();
 
             IncludeSubfoldersCheckBox.IsChecked = settings.IncludeSubfolders;
 
@@ -131,7 +131,7 @@ namespace Alan.HeicConverter
                 isMaximized = presenter.State == Microsoft.UI.Windowing.OverlappedPresenterState.Maximized;
             }
 
-            StorageService.SaveWindowState(
+            SettingsService.SaveWindowState(
                 _appWindow.Size.Width,
                 _appWindow.Size.Height,
                 _appWindow.Position.X,
@@ -157,7 +157,7 @@ namespace Alan.HeicConverter
             else if (GifButton.IsChecked == true) settings.Format = OutputFormat.Gif;
             else if (BmpButton.IsChecked == true) settings.Format = OutputFormat.Bmp;
 
-            StorageService.SaveAppSettings(settings);
+            SettingsService.SaveAppSettings(settings);
         }
 
         private void JpgQualitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
