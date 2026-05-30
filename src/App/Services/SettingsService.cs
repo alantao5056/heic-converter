@@ -20,6 +20,12 @@ namespace Alan.HeicConverter.Services
         private const string SETTINGS_ORIGINAL_FILE_HANDLING = "Settings_OriginalFileHandling";
         private const string SETTINGS_CUSTOM_PATH = "Settings_CustomPath";
 
+        private const string RATING_SUCCESSFUL_BATCH_COUNT = "Rating_SuccessfulBatchCount";
+        private const string RATING_HAS_RATED = "Rating_HasRated";
+        private const string RATING_OPTED_OUT = "Rating_OptedOut";
+        private const string RATING_PROMPT_COUNT = "Rating_PromptCount";
+        private const string RATING_LAST_PROMPT_UTC = "Rating_LastPromptUtc";
+
         public static void SaveWindowState(int width, int height, int x, int y, bool isMaximized)
         {
             try
@@ -142,6 +148,96 @@ namespace Alan.HeicConverter.Services
                 // Ignored, return defaults
             }
             return settings;
+        }
+
+        public static RatingState LoadRatingState()
+        {
+            var state = new RatingState();
+            try
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+
+                if (localSettings.Values.TryGetValue(RATING_SUCCESSFUL_BATCH_COUNT, out object? batchCount))
+                    state.SuccessfulBatchCount = (int)batchCount!;
+
+                if (localSettings.Values.TryGetValue(RATING_HAS_RATED, out object? hasRated))
+                    state.HasRated = (bool)hasRated!;
+
+                if (localSettings.Values.TryGetValue(RATING_OPTED_OUT, out object? optedOut))
+                    state.OptedOut = (bool)optedOut!;
+
+                if (localSettings.Values.TryGetValue(RATING_PROMPT_COUNT, out object? promptCount))
+                    state.PromptCount = (int)promptCount!;
+
+                if (localSettings.Values.TryGetValue(RATING_LAST_PROMPT_UTC, out object? lastPromptUtc)
+                    && DateTimeOffset.TryParse((string)lastPromptUtc!, null,
+                        System.Globalization.DateTimeStyles.RoundtripKind, out var parsed))
+                {
+                    state.LastPromptUtc = parsed;
+                }
+            }
+            catch (Exception)
+            {
+                // Ignored, return defaults
+            }
+            return state;
+        }
+
+        public static void IncrementSuccessfulBatchCount()
+        {
+            try
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+                int current = localSettings.Values.TryGetValue(RATING_SUCCESSFUL_BATCH_COUNT, out object? value)
+                    ? (int)value!
+                    : 0;
+                localSettings.Values[RATING_SUCCESSFUL_BATCH_COUNT] = current + 1;
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
+        }
+
+        public static void SetHasRated()
+        {
+            try
+            {
+                ApplicationData.Current.LocalSettings.Values[RATING_HAS_RATED] = true;
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
+        }
+
+        public static void SetOptedOut()
+        {
+            try
+            {
+                ApplicationData.Current.LocalSettings.Values[RATING_OPTED_OUT] = true;
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
+        }
+
+        public static void RecordPromptShown(DateTimeOffset whenUtc)
+        {
+            try
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+                int current = localSettings.Values.TryGetValue(RATING_PROMPT_COUNT, out object? value)
+                    ? (int)value!
+                    : 0;
+                localSettings.Values[RATING_PROMPT_COUNT] = current + 1;
+                localSettings.Values[RATING_LAST_PROMPT_UTC] = whenUtc.ToString("o");
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
         }
     }
 }

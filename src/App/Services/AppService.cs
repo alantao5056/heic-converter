@@ -44,5 +44,21 @@ namespace Alan.HeicConverter.Services
             }
             return string.Empty;
         }
+
+        public async Task<bool> RequestRateAndReviewAsync(IntPtr hwnd)
+        {
+            try
+            {
+                var storeContext = StoreContext.GetDefault();
+                WinRT.Interop.InitializeWithWindow.Initialize(storeContext, hwnd);
+                var result = await storeContext.RequestRateAndReviewAppAsync();
+                return result.Status == StoreRateAndReviewStatus.Succeeded;
+            }
+            catch (Exception)
+            {
+                // App might not be running from the Store or properly associated in the current context
+                return false;
+            }
+        }
     }
 }

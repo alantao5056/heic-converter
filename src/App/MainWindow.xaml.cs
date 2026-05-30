@@ -40,6 +40,8 @@ namespace Alan.HeicConverter
 
         private Microsoft.UI.Windowing.AppWindow _appWindow;
 
+        private readonly RatingService _ratingService = new();
+
         public ObservableCollection<FileItem> Files { get; } = new();
 
         public MainWindow()
@@ -510,6 +512,38 @@ namespace Alan.HeicConverter
                 SetControlsEnabled(true);
                 StartConversionButton.IsEnabled = true;
             }
+
+            // A "successful batch" = a run where more than 90% of processed files ended up
+            // Completed, Ignored, or Replaced.
+            int succeededCount = pendingFiles.Count(f =>
+                f.Status == FileStatus.Completed
+                || f.Status == FileStatus.Ignored
+                || f.Status == FileStatus.Replaced);
+            bool isSuccessfulBatch = (double)succeededCount / pendingFiles.Count > 0.9;
+            if (isSuccessfulBatch)
+            {
+                _ratingService.RecordSuccessfulBatch();
+                if (_ratingService.ShouldRequestReview())
+                {
+                    var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+                    await _ratingService.TryRequestReviewAsync(this.Content.XamlRoot, hwnd);
+                }
+            }
+        }
+
+        private async void RateAppLink_Click(object sender, RoutedEventArgs e)
+        {
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            bool rated = await new AppService().RequestRateAndReviewAsync(hwnd);
+            if (rated)
+            {
+                SettingsService.SetHasRated();
+            }
+        }
+
+        private async void ContactSupportLink_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("mailto:heicbatchconverter@gmail.com"));
         }
 
         private void UpdateStartConversionButtonStatus()
