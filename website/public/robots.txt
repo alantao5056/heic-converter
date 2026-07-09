@@ -1,4 +1,4 @@
-# heicbatchconvert.alantao.com: all crawlers welcome, including AI engines.
+# heicbatchconverter.alantao.com: all crawlers welcome, including AI engines.
 
 User-agent: *
 Allow: /
@@ -34,4 +34,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://heicbatchconvert.alantao.com/sitemap-index.xml
+Sitemap: https://heicbatchconverter.alantao.com/sitemap-index.xml

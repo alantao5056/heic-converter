@@ -1,4 +1,4 @@
-# GEO Content Site: heicbatchconvert.alantao.com
+# GEO Content Site: heicbatchconverter.alantao.com
 
 Astro static site promoting HEIC Batch Converter (part of the GEO plan in
 `docs/promo/PLAN.md`, Component 2). Landing page + guides, structured data
@@ -27,7 +27,7 @@ npm run preview   # serve dist/ locally
 
 ## Deploy
 
-Static files only. DNS: `heicbatchconvert` A record → server IP.
+Static files only. DNS: `heicbatchconverter` A record → server IP.
 
 - Caddy: merge `deploy/Caddyfile` into the server config (auto-HTTPS)
 - Nginx: use `deploy/nginx.conf` + certbot

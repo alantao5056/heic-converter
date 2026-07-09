@@ -2,8 +2,8 @@
 # Merge into the server's /etc/caddy/Caddyfile, then: sudo systemctl reload caddy
 # HTTPS certificates are provisioned automatically via Let's Encrypt.
 
-heicbatchconvert.alantao.com {
-    root * /var/www/heicbatchconvert
+heicbatchconverter.alantao.com {
+    root * /var/www/heicbatchconverter
     file_server
     encode zstd gzip
 

@@ -11,7 +11,7 @@ name: Deploy website
 #   SSH_KNOWN_HOSTS  output of: ssh-keyscan -H <host>   (pins the server host key)
 # Optional:
 #   SSH_PORT         SSH port (defaults to 22)
-#   DEPLOY_PATH      target dir (defaults to /var/www/heicbatchconvert)
+#   DEPLOY_PATH      target dir (defaults to /var/www/heicbatchconverter)
 
 on:
   push:
@@ -65,8 +65,8 @@ jobs:
         run: |
           set -euo pipefail
           PORT="${SSH_PORT:-22}"
-          TARGET="${DEPLOY_PATH:-/var/www/heicbatchconvert}"
+          TARGET="${DEPLOY_PATH:-/var/www/heicbatchconverter}"
           rsync -az --delete \
             -e "ssh -i ~/.ssh/id_ed25519 -p $PORT" \
             website/dist/ "$SSH_USER@$SSH_HOST:$TARGET/"
-          echo "Deployed to https://heicbatchconvert.alantao.com"
+          echo "Deployed to https://heicbatchconverter.alantao.com"
