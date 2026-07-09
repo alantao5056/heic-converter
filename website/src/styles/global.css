@@ -1,0 +1,190 @@
+/* ---------------------------------------------------------------------------
+   HEIC Batch Converter: site design tokens & base styles
+   Visual direction: docs/posters/poster_1.png (deep navy hero, brand blue
+   accents, four-color format badges echoing the logo palette).
+--------------------------------------------------------------------------- */
+
+:root {
+  /* Navy scale (hero, footer) */
+  --navy-950: #050d1d;
+  --navy-900: #0a1830;
+  --navy-800: #0f2547;
+  --navy-700: #16345f;
+
+  /* Brand accents (match app UI: docs/ui-design/README.md) */
+  --accent: #2e86c1;
+  --accent-deep: #185fa5;
+  --accent-hover: #1a6fa0;
+  --accent-bright: #6fb3e8; /* links on dark backgrounds */
+
+  /* Logo / format-badge palette */
+  --c-blue: #4285d8;
+  --c-green: #42b865;
+  --c-yellow: #edd018;
+  --c-red: #e84030;
+  --c-orange: #f5a018;
+
+  /* Light surfaces */
+  --ink: #16233b;
+  --ink-soft: #4c5a72;
+  --ink-faint: #8291a8;
+  --paper: #ffffff;
+  --paper-tint: #f4f7fa;
+  --border: rgba(13, 33, 66, 0.12);
+  --border-soft: rgba(13, 33, 66, 0.07);
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(10, 24, 48, 0.05), 0 4px 16px rgba(10, 24, 48, 0.06);
+  --shadow-float: 0 12px 40px rgba(5, 13, 29, 0.45);
+  --shadow-btn: 0 2px 8px rgba(46, 134, 193, 0.35);
+
+  /* Shape & type */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font-sans: 'Segoe UI Variable Display', 'Segoe UI', -apple-system,
+    BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+
+  --container: 1120px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: inherit;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--accent-deep);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Shared primitives ------------------------------------------------- */
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 40px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-ghost-dark {
+  color: #dfeaf6;
+  border-color: rgba(223, 234, 246, 0.35);
+}
+
+.btn-ghost-dark:hover {
+  border-color: rgba(223, 234, 246, 0.7);
+  background: rgba(223, 234, 246, 0.06);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  font-weight: 700;
+}
+
+.section-lead {
+  font-size: 1.08rem;
+  color: var(--ink-soft);
+  max-width: 640px;
+}
+
+/* Subtle grid texture used on dark sections (echoes poster_1) */
+.dark-grid {
+  background-color: var(--navy-900);
+  background-image:
+    linear-gradient(rgba(111, 179, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 179, 232, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

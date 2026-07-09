@@ -1,0 +1,901 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import StoreBadge from '../components/StoreBadge.astro';
+import { SITE } from '../site';
+import screenshot from '../assets/app-screenshot.png';
+
+const title = 'HEIC Batch Converter | Free HEIC to JPG Converter for Windows';
+const description =
+  'Convert HEIC photos to JPG, PNG, GIF, or BMP in bulk with a free Windows 10/11 app. 100% offline, with no uploads, no limits, and no watermarks. Download on Microsoft Store.';
+
+const features = [
+  {
+    icon: 'stack',
+    title: 'True batch conversion',
+    text: 'Drop in hundreds or even thousands of HEIC files and convert them all in one run. Entire folders and subfolders included.',
+  },
+  {
+    icon: 'formats',
+    title: 'Four output formats',
+    text: 'Export to JPG, PNG, GIF, or BMP. Results for each format are tracked separately, so you can re-export the same batch to another format instantly.',
+  },
+  {
+    icon: 'slider',
+    title: 'Precise quality control',
+    text: 'A real-time JPG quality slider lets you balance file size against image clarity before you convert. No guesswork.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Smart conflict handling',
+    text: 'Duplicate file names are handled automatically: generate a unique name, replace the existing file, or skip it. Your choice, applied consistently.',
+  },
+  {
+    icon: 'folder',
+    title: 'Original file management',
+    text: 'Decide what happens to your HEIC originals after conversion: keep them, delete them, or move them to a folder of your choosing.',
+  },
+  {
+    icon: 'chart',
+    title: 'Live progress tracking',
+    text: 'A per-file status table with clear badges shows exactly what succeeded, what failed and why, plus overall progress and statistics.',
+  },
+];
+
+const steps = [
+  {
+    n: '1',
+    title: 'Pick your folders',
+    text: 'Choose a source folder (subfolders optional) and a target folder. The app finds every HEIC file automatically.',
+  },
+  {
+    n: '2',
+    title: 'Choose format & options',
+    text: 'Select JPG, PNG, GIF, or BMP, set JPG quality, and decide how to handle duplicates and originals.',
+  },
+  {
+    n: '3',
+    title: 'Start conversion',
+    text: 'One click converts the whole batch. Watch per-file status update live while your folder structure is preserved.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is HEIC Batch Converter free?',
+    a: 'Yes. HEIC Batch Converter is a free app for Windows 10 and Windows 11, available on the Microsoft Store. There are no watermarks, no conversion limits, and no subscription.',
+  },
+  {
+    q: 'Are my photos uploaded anywhere?',
+    a: 'No. All conversion happens locally on your PC. The app works completely offline, so your photos never leave your computer, unlike web-based HEIC converters that require uploading your images to a server.',
+  },
+  {
+    q: 'Which output formats are supported?',
+    a: 'HEIC Batch Converter converts HEIC/HEIF images to JPG, PNG, GIF, and BMP. For JPG output, an adjustable quality slider (up to 100%) controls the balance between file size and image clarity.',
+  },
+  {
+    q: 'Can it convert an entire folder of HEIC files at once?',
+    a: 'Yes. Point the app at a source folder and it converts every HEIC file inside, including subfolders if you enable that option. The original subfolder structure is recreated in the target folder.',
+  },
+  {
+    q: 'Does converting HEIC to JPG reduce quality?',
+    a: 'JPG is a lossy format, so there is always some recompression. At the default 85% quality setting the difference is imperceptible for typical photos; you can raise the slider to 100% for maximum fidelity.',
+  },
+  {
+    q: 'What happens to my original HEIC files?',
+    a: 'You decide. After a successful conversion the app can keep the originals in place, delete them, or move them to a folder you choose.',
+  },
+  {
+    q: 'Which versions of Windows are supported?',
+    a: 'HEIC Batch Converter runs on Windows 10 and Windows 11, on both 64-bit and 32-bit (x86) systems. It is distributed and updated through the Microsoft Store.',
+  },
+];
+
+/*
+ * Real user reviews pulled verbatim from the Microsoft Store product page
+ * (API: apps.microsoft.com/api/Products/GetReviews/9pmm2c5ch29k, 2026-07-08).
+ * Refresh the aggregate numbers and quotes from the same endpoint over time.
+ */
+const reviewStats = { average: 4.5, count: 24 };
+
+const reviews = [
+  {
+    title: 'Thank you for making this!!',
+    text: 'It works great and can load batches for free!!!',
+    name: 'Richard',
+    date: 'July 2026',
+  },
+  {
+    title: 'Fantastic',
+    text: 'Does exactly what it should, quickly and easily.',
+    name: 'Anne',
+    date: 'June 2026',
+  },
+  {
+    title: 'Just what I needed!',
+    text: 'When all my camera photos got created at HEIC file, I thought I was in trouble until I found this converter! Thank goodness it works easily and consistently!',
+    name: 'Rhonda',
+    date: 'June 2026',
+  },
+  {
+    title: 'Amazing',
+    text: 'I have been trying to convert files for months with limits on how many and single conversions. This program asked for the file, found the pictures and converted them in seconds! Thank you!!!!!',
+    name: 'Nancy',
+    date: 'June 2026',
+  },
+  {
+    title: 'Excellent',
+    text: "This works perfectly - fast and easy. I'm so glad I don't have to convert my files one-by-one, now. Thank you!",
+    name: 'Jean',
+    date: 'June 2026',
+  },
+  {
+    title: 'Time Saver',
+    text: 'Save me 1 hour!!!',
+    name: 'Kathy',
+    date: 'June 2026',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: SITE.name,
+    operatingSystem: 'Windows 10, Windows 11',
+    applicationCategory: 'MultimediaApplication',
+    description: SITE.description,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    downloadUrl: SITE.storeUrl,
+    installUrl: SITE.storeUrl,
+    url: SITE.url,
+    image: new URL('/og/home.png', SITE.url).href,
+    screenshot: new URL('/og/home.png', SITE.url).href,
+    author: { '@type': 'Person', name: SITE.publisher },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: reviewStats.average,
+      ratingCount: reviewStats.count,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    featureList: [
+      'Batch convert HEIC/HEIF to JPG, PNG, GIF, BMP',
+      'Adjustable JPG quality slider',
+      'Folder and subfolder scanning with structure preserved',
+      'Duplicate name conflict resolution',
+      'Keep, delete, or move original files',
+      '100% offline conversion',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+const icons: Record<string, string> = {
+  stack:
+    '<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+  formats:
+    '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
+  slider:
+    '<path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="16" cy="8" r="2.5"/><circle cx="8" cy="16" r="2.5"/>',
+  'shield-check':
+    '<path d="M12 3 5 6v5c0 4.5 3 8.2 7 9.5 4-1.3 7-5 7-9.5V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
+  folder:
+    '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-8M21 20H3"/>',
+};
+
+const formatChips = [
+  { label: 'JPG', color: 'var(--c-blue)' },
+  { label: 'PNG', color: 'var(--c-green)' },
+  { label: 'GIF', color: 'var(--c-yellow)' },
+  { label: 'BMP', color: 'var(--c-red)' },
+];
+---
+
+<Base {title} {description} navTheme="dark" schema={schema}>
+  <!-- ============================== HERO ============================== -->
+  <section class="hero dark-grid">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">Windows Desktop Application</p>
+        <h1>
+          Convert HEIC photos to <span class="hl">JPG</span>. In bulk, in
+          seconds.
+        </h1>
+        <p class="hero-sub">
+          HEIC Batch Converter is a free Windows app that converts your
+          iPhone's HEIC photos to JPG, PNG, GIF, or BMP, hundreds at a time,
+          <strong>100% offline</strong>. No uploads. No limits. No watermarks.
+        </p>
+        <div class="hero-actions">
+          <StoreBadge size="large" />
+          <a class="btn btn-ghost-dark" href="#how-it-works">See how it works</a>
+        </div>
+        <ul class="trust-row" aria-label="Highlights">
+          <li>Free</li>
+          <li>100% offline</li>
+          <li>Windows 10 &amp; 11</li>
+        </ul>
+      </div>
+
+      <div class="hero-shot" aria-hidden="true">
+        <div class="shot-frame">
+          <Image
+            src={screenshot}
+            alt="HEIC Batch Converter application window converting a folder of HEIC photos to JPG"
+            widths={[640, 1080, 1600]}
+            sizes="(max-width: 900px) 92vw, 640px"
+            format="webp"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="container format-band">
+      <span class="fb-heic">HEIC</span>
+      <svg class="fb-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      {formatChips.map((c) => (
+        <span class="fb-chip" style={`color:${c.color}`}>{c.label}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============================ FEATURES ============================ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow">Features</p>
+      <h2 class="section-title">Built for converting photos by the folder, not one by one</h2>
+      <p class="section-lead">
+        Everything about the app is designed around one job: getting a large
+        pile of HEIC files into a format the rest of the world can open.
+      </p>
+
+      <div class="feature-grid">
+        {features.map((f) => (
+          <article class="feature-card">
+            <span class="icon-chip">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={icons[f.icon]}
+              />
+            </span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== HOW IT WORKS ========================== -->
+  <section class="how" id="how-it-works">
+    <div class="container">
+      <p class="eyebrow">How it works</p>
+      <h2 class="section-title">Three steps. That's the whole workflow.</h2>
+
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="step">
+            <span class="step-n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ REVIEWS ============================= -->
+  <section class="reviews" id="reviews">
+    <div class="container">
+      <p class="eyebrow">Reviews</p>
+      <h2 class="section-title">What users say on the Microsoft Store</h2>
+
+      <div class="rating-summary">
+        <span class="rating-number">{reviewStats.average}</span>
+        <span class="stars" style={`--fill: ${(reviewStats.average / 5) * 100}%`} role="img" aria-label={`Rated ${reviewStats.average} out of 5 stars`}>
+          <span class="stars-empty" aria-hidden="true">★★★★★</span>
+          <span class="stars-fill" aria-hidden="true">★★★★★</span>
+        </span>
+        <span class="rating-count">
+          {reviewStats.count} ratings ·
+          <a href={`${SITE.storeUrl}?activetab=pivot:reviewstab`} rel="noopener">read all on the Store</a>
+        </span>
+      </div>
+
+      <div class="review-grid">
+        {reviews.map((r) => (
+          <figure class="review-card">
+            <figcaption class="review-head">
+              <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <strong>{r.title}</strong>
+            </figcaption>
+            <blockquote>{r.text}</blockquote>
+            <p class="review-meta">{r.name} · {r.date}</p>
+          </figure>
+        ))}
+      </div>
+
+      <p class="review-note">Real reviews, quoted verbatim from the app's Microsoft Store page.</p>
+    </div>
+  </section>
+
+  <!-- ============================ PRIVACY ============================= -->
+  <section class="privacy dark-grid">
+    <div class="container privacy-grid">
+      <div>
+        <p class="hero-eyebrow">Privacy by design</p>
+        <h2>Your photos never leave your PC</h2>
+        <p class="privacy-lead">
+          Online HEIC converters require uploading your personal photos to
+          someone else's server. HEIC Batch Converter does all of its work
+          locally on your machine. It even runs without an internet
+          connection.
+        </p>
+      </div>
+      <ul class="privacy-points">
+        <li><strong>No uploads:</strong> conversion runs entirely on your PC</li>
+        <li><strong>No file limits:</strong> convert as many photos as your disk holds</li>
+        <li><strong>No watermarks:</strong> your output files are yours, untouched</li>
+        <li><strong>Works offline:</strong> perfect for private or sensitive photo libraries</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ =============================== -->
+  <section class="faq" id="faq">
+    <div class="container faq-inner">
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h2 class="section-title">Frequently asked questions</h2>
+        <p class="section-lead">
+          Anything else? Email
+          <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a> and a
+          human will answer.
+        </p>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== FINAL CTA ============================ -->
+  <section class="final dark-grid">
+    <div class="container final-inner">
+      <img src="/logo.svg" alt="" width="64" height="64" />
+      <h2>Stop fighting HEIC files.</h2>
+      <p>Download HEIC Batch Converter free from the Microsoft Store and convert your whole photo library in one run.</p>
+      <StoreBadge size="large" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ------------------------------- Hero ------------------------------- */
+  .hero {
+    background:
+      radial-gradient(1100px 500px at 78% -10%, rgba(46, 134, 193, 0.28), transparent 62%),
+      radial-gradient(700px 420px at -8% 108%, rgba(24, 95, 165, 0.35), transparent 60%),
+      linear-gradient(160deg, var(--navy-950) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
+    color: #eaf1f9;
+    margin-top: -68px; /* pull dark bg behind the transparent nav */
+    padding-top: 68px;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 11fr) minmax(0, 10fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 64px);
+    padding-block: clamp(56px, 8vw, 104px) clamp(40px, 5vw, 64px);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-orange);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 4vw, 3.15rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .hl {
+    color: var(--accent-bright);
+  }
+
+  .hero-sub {
+    font-size: 1.13rem;
+    line-height: 1.7;
+    color: rgba(223, 234, 246, 0.82);
+    max-width: 480px;
+    margin-bottom: 30px;
+  }
+
+  .hero-sub strong {
+    color: #fff;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 26px;
+  }
+
+  /* Match the ghost button's height to the Store badge next to it */
+  .hero-actions .btn-ghost-dark {
+    padding-block: 0;
+  }
+
+  .trust-row {
+    display: flex;
+    gap: 26px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(223, 234, 246, 0.65);
+  }
+
+  .trust-row li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .trust-row li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c-green);
+  }
+
+  .hero-shot {
+    perspective: 1600px;
+    min-width: 0;
+  }
+
+  .shot-frame {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(223, 234, 246, 0.14);
+    box-shadow: var(--shadow-float);
+    transform: rotateY(-7deg) rotateX(2deg);
+    background: #fff;
+  }
+
+  /* ---------------------------- Format band --------------------------- */
+  .format-band {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    border-top: 1px solid rgba(223, 234, 246, 0.12);
+    padding-block: 26px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .fb-heic {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+
+  .fb-arrow {
+    width: 26px;
+    height: 26px;
+    color: var(--c-orange);
+  }
+
+  .fb-chip {
+    font-size: 1.5rem;
+  }
+
+  /* ------------------------------ Features ---------------------------- */
+  .features {
+    padding-block: clamp(64px, 9vw, 110px);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 44px;
+  }
+
+  .feature-card {
+    background: var(--paper);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 26px 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(46, 134, 193, 0.1);
+    color: var(--accent-deep);
+    margin-bottom: 16px;
+  }
+
+  .icon-chip svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.06rem;
+    font-weight: 650;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---------------------------- How it works --------------------------- */
+  .how {
+    background: var(--paper-tint);
+    padding-block: clamp(64px, 9vw, 100px);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    list-style: none;
+    margin: 40px 0 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  .step {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 26px 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .step-n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+  }
+
+  .step h3 {
+    font-size: 1.06rem;
+    font-weight: 650;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ------------------------------ Reviews ------------------------------ */
+  .reviews {
+    padding-block: clamp(64px, 9vw, 100px);
+  }
+
+  .rating-summary {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+  }
+
+  .rating-number {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Overlay trick: gray star row with an orange row clipped to --fill width */
+  .stars {
+    position: relative;
+    display: inline-block;
+    font-size: 1.4rem;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .stars-empty {
+    color: rgba(13, 33, 66, 0.18);
+  }
+
+  .stars-fill {
+    position: absolute;
+    inset: 0;
+    width: var(--fill);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ed5e0c;
+  }
+
+  .rating-count {
+    font-size: 0.92rem;
+    color: var(--ink-faint);
+  }
+
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 34px;
+  }
+
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background: var(--paper);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .review-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .review-stars {
+    color: #ed5e0c;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+  }
+
+  .review-head strong {
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+  }
+
+  .review-card blockquote {
+    margin: 0;
+    flex: 1;
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+  }
+
+  .review-meta {
+    margin: 14px 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+
+  .review-note {
+    margin: 26px 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+
+  /* ------------------------------ Privacy ------------------------------ */
+  .privacy {
+    color: #eaf1f9;
+    background:
+      radial-gradient(800px 400px at 15% 0%, rgba(66, 184, 101, 0.14), transparent 60%),
+      linear-gradient(150deg, var(--navy-900), var(--navy-800));
+  }
+
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding-block: clamp(64px, 8vw, 96px);
+  }
+
+  .privacy h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    color: #fff;
+  }
+
+  .privacy-lead {
+    color: rgba(223, 234, 246, 0.8);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .privacy-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+
+  .privacy-points li {
+    background: rgba(223, 234, 246, 0.06);
+    border: 1px solid rgba(223, 234, 246, 0.12);
+    border-radius: var(--radius);
+    padding: 15px 18px;
+    font-size: 0.97rem;
+    color: rgba(223, 234, 246, 0.82);
+  }
+
+  .privacy-points strong {
+    color: #fff;
+  }
+
+  /* -------------------------------- FAQ -------------------------------- */
+  .faq {
+    padding-block: clamp(64px, 9vw, 110px);
+  }
+
+  .faq-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--paper);
+    box-shadow: var(--shadow-card);
+    padding: 0 20px;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.99rem;
+    padding: 17px 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--accent-deep);
+    flex: none;
+    transition: transform 0.15s ease;
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-item p {
+    margin: 0;
+    padding-bottom: 18px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  /* ----------------------------- Final CTA ----------------------------- */
+  .final {
+    background:
+      radial-gradient(900px 460px at 50% 120%, rgba(46, 134, 193, 0.32), transparent 65%),
+      linear-gradient(180deg, var(--navy-900), var(--navy-950));
+    color: #eaf1f9;
+  }
+
+  .final-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: clamp(72px, 9vw, 110px);
+  }
+
+  .final img {
+    margin-bottom: 22px;
+  }
+
+  .final h2 {
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+    color: #fff;
+  }
+
+  .final p {
+    color: rgba(223, 234, 246, 0.78);
+    max-width: 460px;
+    margin-bottom: 30px;
+  }
+
+  /* ----------------------------- Responsive ---------------------------- */
+  @media (max-width: 900px) {
+    .hero-grid,
+    .privacy-grid,
+    .faq-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .shot-frame {
+      transform: none;
+    }
+
+    .feature-grid,
+    .steps,
+    .review-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .feature-grid,
+    .steps,
+    .review-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .fb-heic,
+    .fb-chip {
+      font-size: 1.15rem;
+    }
+  }
+</style>

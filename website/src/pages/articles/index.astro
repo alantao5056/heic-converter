@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const title = 'HEIC Guides & Tutorials | HEIC Batch Converter';
+const description =
+  'Practical guides on working with HEIC photos on Windows: converting HEIC to JPG, fixing HEIC files that won\'t open, format comparisons, and converter reviews.';
+---
+
+<Base {title} {description}>
+  <section class="guides">
+    <div class="container">
+      <p class="eyebrow">Guides</p>
+      <h1 class="section-title">HEIC guides &amp; tutorials</h1>
+      <p class="section-lead">
+        Practical, no-fluff answers for dealing with HEIC photos on Windows,
+        written by the developer of HEIC Batch Converter.
+      </p>
+
+      <div class="card-list">
+        {articles.map((a) => (
+          <a class="card" href={`/articles/${a.id}/`}>
+            <h2>{a.data.title}</h2>
+            <p class="desc">{a.data.description}</p>
+            <p class="date">
+              <time datetime={a.data.pubDate.toISOString().slice(0, 10)}>
+                {dateFmt.format(a.data.updatedDate ?? a.data.pubDate)}
+              </time>
+              <span class="read-more">Read guide →</span>
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .guides {
+    padding-block: clamp(48px, 6vw, 72px) clamp(64px, 8vw, 100px);
+  }
+
+  .card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 40px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 26px 26px 20px;
+    box-shadow: var(--shadow-card);
+    color: inherit;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    text-decoration: none;
+    border-color: rgba(46, 134, 193, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .card h2 {
+    font-size: 1.18rem;
+    font-weight: 650;
+    margin-bottom: 10px;
+  }
+
+  .desc {
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    flex: 1;
+    margin-bottom: 18px;
+  }
+
+  .date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+
+  .read-more {
+    color: var(--accent-deep);
+    font-weight: 600;
+  }
+
+  @media (max-width: 720px) {
+    .card-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

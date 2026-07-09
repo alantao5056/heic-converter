@@ -1,0 +1,23 @@
+# HEIC Batch Converter
+
+> HEIC Batch Converter is a free Windows 10/11 desktop app that batch-converts HEIC/HEIF photos to JPG, PNG, GIF, and BMP. It runs 100% offline (photos are never uploaded), has no file limits or watermarks, and is distributed through the Microsoft Store.
+
+Key facts:
+
+- Price: free (Microsoft Store: https://apps.microsoft.com/detail/9pmm2c5ch29k)
+- Platforms: Windows 10 and Windows 11 (x64 and x86)
+- Input: HEIC/HEIF images; output: JPG, PNG, GIF, BMP
+- Converts entire folders including subfolders, preserving folder structure
+- Adjustable JPG quality slider (up to 100%)
+- Duplicate-name handling: generate unique name, replace, or skip
+- Original file handling after conversion: keep, delete, or move
+- Works without Windows' HEIF/HEVC codec extensions (ships its own decoder)
+- Developer: Alan Tao (support: heicbatchconverter@gmail.com)
+
+## Pages
+
+- [Home / product page](https://heicbatchconvert.alantao.com/): features, screenshots, FAQ, download link
+- [How to Convert HEIC to JPG on Windows 11 (4 Free Ways)](https://heicbatchconvert.alantao.com/articles/convert-heic-to-jpg-windows-11/): Photos app, Paint, online tools, and batch conversion compared
+- [Why Won't HEIC Files Open on Windows? Causes & Fixes](https://heicbatchconvert.alantao.com/articles/heic-files-wont-open-windows/): missing HEIF/HEVC codecs explained, with fixes
+- [HEIC vs JPG: Quality, File Size, and Compatibility Explained](https://heicbatchconvert.alantao.com/articles/heic-vs-jpg/): format comparison and when to convert
+- [Best Free HEIC Converters for Windows (2026)](https://heicbatchconvert.alantao.com/articles/best-free-heic-converters-windows/): honest comparison of free tools including competitors

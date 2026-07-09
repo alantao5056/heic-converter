@@ -32,3 +32,8 @@ artifacts/
 .vs
 AppPackages
 *.csproj.user
+
+# Website (website/ - Astro)
+node_modules/
+website/dist/
+website/.astro/

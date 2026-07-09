@@ -1,0 +1,13 @@
+# Caddy site block for the GEO content site.
+# Merge into the server's /etc/caddy/Caddyfile, then: sudo systemctl reload caddy
+# HTTPS certificates are provisioned automatically via Let's Encrypt.
+
+heicbatchconvert.alantao.com {
+    root * /var/www/heicbatchconvert
+    file_server
+    encode zstd gzip
+
+    # Immutable fingerprinted assets
+    @assets path /_astro/*
+    header @assets Cache-Control "public, max-age=31536000, immutable"
+}

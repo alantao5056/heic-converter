@@ -1,0 +1,94 @@
+---
+/**
+ * Microsoft Store download button. `size="large"` for hero CTAs,
+ * default for nav/footer placements.
+ */
+import { SITE } from '../site';
+
+interface Props {
+  size?: 'large' | 'default';
+}
+
+const { size = 'default' } = Astro.props;
+---
+
+<a
+  class:list={['store-badge', size]}
+  href={SITE.storeUrl}
+  rel="noopener"
+  aria-label="Get HEIC Batch Converter from the Microsoft Store"
+>
+  <svg class="ms-logo" viewBox="0 0 23 23" aria-hidden="true">
+    <rect x="0" y="0" width="11" height="11" fill="#f25022"></rect>
+    <rect x="12" y="0" width="11" height="11" fill="#7fba00"></rect>
+    <rect x="0" y="12" width="11" height="11" fill="#00a4ef"></rect>
+    <rect x="12" y="12" width="11" height="11" fill="#ffb900"></rect>
+  </svg>
+  <span class="labels">
+    <span class="small">Free download from</span>
+    <span class="big">Microsoft Store</span>
+  </span>
+</a>
+
+<style>
+  .store-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #10141e;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--radius-sm);
+    padding: 10px 20px 10px 16px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .store-badge:hover {
+    text-decoration: none;
+    border-color: rgba(255, 255, 255, 0.55);
+    background: #171d2b;
+  }
+
+  .ms-logo {
+    width: 26px;
+    height: 26px;
+    flex: none;
+  }
+
+  .labels {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    text-align: left;
+  }
+
+  .small {
+    font-size: 0.7rem;
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+  }
+
+  .big {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .store-badge.large {
+    padding: 13px 26px 13px 20px;
+  }
+
+  .store-badge.large .ms-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .store-badge.large .small {
+    font-size: 0.78rem;
+  }
+
+  .store-badge.large .big {
+    font-size: 1.25rem;
+  }
+</style>

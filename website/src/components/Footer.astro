@@ -1,0 +1,132 @@
+---
+import { SITE } from '../site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <div class="col about">
+      <a class="brand" href="/">
+        <img src="/logo.svg" alt="" width="30" height="30" />
+        <span>HEIC Batch Converter</span>
+      </a>
+      <p>
+        Free Windows app that converts HEIC photos to JPG, PNG, GIF, and BMP in
+        bulk, fully offline.
+      </p>
+    </div>
+
+    <div class="col">
+      <h3>Product</h3>
+      <ul>
+        <li><a href={SITE.storeUrl} rel="noopener">Download on Microsoft Store</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3>Guides</h3>
+      <ul>
+        <li><a href="/articles/convert-heic-to-jpg-windows-11/">Convert HEIC to JPG on Windows 11</a></li>
+        <li><a href="/articles/heic-files-wont-open-windows/">Fix HEIC files that won't open</a></li>
+        <li><a href="/articles/heic-vs-jpg/">HEIC vs JPG explained</a></li>
+        <li><a href="/articles/best-free-heic-converters-windows/">Best free HEIC converters</a></li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3>Support</h3>
+      <ul>
+        <li><a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container legal">
+    <p>© {year} {SITE.publisher}. HEIC Batch Converter for Windows 10 &amp; 11.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--navy-950);
+    color: rgba(223, 234, 246, 0.78);
+    font-size: 0.92rem;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.4fr 1fr;
+    gap: 40px;
+    padding-block: 56px 40px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 650;
+    margin-bottom: 14px;
+  }
+
+  .brand:hover {
+    text-decoration: none;
+  }
+
+  .about p {
+    max-width: 300px;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(223, 234, 246, 0.5);
+    margin-bottom: 16px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .footer a {
+    color: rgba(223, 234, 246, 0.78);
+  }
+
+  .footer a:hover {
+    color: #fff;
+  }
+
+  .legal {
+    border-top: 1px solid rgba(223, 234, 246, 0.12);
+    padding-block: 22px;
+  }
+
+  .legal p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: rgba(223, 234, 246, 0.45);
+  }
+
+  @media (max-width: 860px) {
+    .inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

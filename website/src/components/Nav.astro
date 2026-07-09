@@ -1,0 +1,123 @@
+---
+/**
+ * Site navigation. `theme="dark"` renders transparent over the navy hero
+ * (landing page); `theme="light"` renders on white with a border (articles).
+ */
+interface Props {
+  theme?: 'dark' | 'light';
+}
+
+const { theme = 'light' } = Astro.props;
+
+const links = [
+  { href: '/#features', label: 'Features' },
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#reviews', label: 'Reviews' },
+  { href: '/articles/', label: 'Guides' },
+  { href: '/#faq', label: 'FAQ' },
+];
+---
+
+<header class:list={['nav', theme]}>
+  <div class="container inner">
+    <a class="brand" href="/" aria-label="HEIC Batch Converter home">
+      <img src="/logo.svg" alt="" width="34" height="34" />
+      <span>HEIC Batch Converter</span>
+    </a>
+
+    <nav aria-label="Main">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="btn btn-primary nav-cta" href="https://apps.microsoft.com/detail/9pmm2c5ch29k" rel="noopener">
+      Get the app
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: relative;
+    z-index: 10;
+  }
+
+  .nav.light {
+    background: var(--paper);
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 68px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-weight: 650;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .brand:hover {
+    text-decoration: none;
+  }
+
+  .nav.dark .brand {
+    color: #fff;
+  }
+
+  nav {
+    margin-left: auto;
+  }
+
+  ul {
+    display: flex;
+    gap: 26px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .nav.dark nav a {
+    color: rgba(223, 234, 246, 0.82);
+  }
+
+  nav a:hover {
+    color: var(--accent-deep);
+    text-decoration: none;
+  }
+
+  .nav.dark nav a:hover {
+    color: #fff;
+  }
+
+  .nav-cta {
+    padding: 9px 18px;
+    font-size: 0.88rem;
+  }
+
+  @media (max-width: 720px) {
+    nav {
+      display: none;
+    }
+
+    .nav-cta {
+      margin-left: auto;
+    }
+  }
+</style>
