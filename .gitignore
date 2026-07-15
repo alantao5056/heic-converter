@@ -37,3 +37,5 @@ AppPackages
 node_modules/
 website/dist/
 website/.astro/
+
+docs/promo/
