@@ -39,3 +39,15 @@ repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS`
 Actions tab.
 
 Manual fallback: `DEPLOY_HOST=user@server ./scripts/deploy.sh` (rsyncs `dist/`).
+
+## IndexNow
+
+`public/2b071bd0fa8b02f44310a9076ed10dd1.txt` is the IndexNow key file (key = filename).
+After deploying new/changed pages, push them to Bing:
+
+```
+POST https://api.indexnow.org/indexnow
+{ "host": "heicbatchconverter.alantao.com",
+  "key": "2b071bd0fa8b02f44310a9076ed10dd1",
+  "urlList": ["https://heicbatchconverter.alantao.com/<changed-page>/"] }
+```
