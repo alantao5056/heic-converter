@@ -1,0 +1,201 @@
+HEIC BATCH CONVERTER
+END-USER LICENSE AGREEMENT
+
+Publisher:      Alan Tao
+Effective date: 23 July 2026
+Applies to:     HEIC Batch Converter version 2.1
+
+This End-User License Agreement ("Agreement") is a legal agreement between you,
+either an individual or a single legal entity ("you"), and Alan Tao ("we", "us")
+governing your use of the HEIC Batch Converter software application, including
+all files distributed with it (the "Software").
+
+By installing or using the Software you accept this Agreement. If you do not
+accept it, do not install or use the Software.
+
+
+1. LICENSE GRANT
+
+   We grant you a non-exclusive, worldwide, royalty-free, perpetual license to
+   install and use the Software, subject to the terms of this Agreement.
+
+   The Software is provided free of charge. No fee, purchase, subscription,
+   registration, activation key, or seat count applies.
+
+
+2. PERMITTED USE
+
+   2.1 Business and commercial use is permitted. You may use the Software for
+       any lawful purpose, including internal business use within a company,
+       government body, educational institution, or other organisation.
+
+   2.2 No limit applies to the number of devices or users. You may install the
+       Software on any number of devices that you own, operate, or administer,
+       and any number of your personnel may use it.
+
+   2.3 Deployment by administrators is permitted. An organisation may deploy
+       the Software to its own devices by any means made available by Microsoft
+       for the distribution of Microsoft Store applications, and may install it
+       on behalf of its personnel.
+
+   2.4 Output files are yours. We claim no right in, and impose no restriction
+       on, the image files the Software produces. You may use, publish, and sell
+       them freely. No attribution to us is required.
+
+   2.5 No reporting obligation. You need not notify us of your use, and need not
+       obtain any further permission beyond this Agreement.
+
+
+3. RESTRICTIONS
+
+   Except as section 6 provides, you may not:
+
+   3.1 sell, rent, lease, lend, or sublicense the Software, or charge any third
+       party for it;
+
+   3.2 distribute the Software outside your own organisation, including by
+       mirroring, re-hosting, repackaging, or bundling it with another product
+       or service;
+
+   3.3 modify, adapt, translate, or create derivative works of the Software;
+
+   3.4 reverse engineer, decompile, or disassemble the Software;
+
+   3.5 remove, obscure, or alter any copyright, trademark, or other proprietary
+       notice contained in the Software, including the file
+       THIRD-PARTY-NOTICES.txt; or
+
+   3.6 use our name, logo, or trademarks in a manner that states or implies that
+       we endorse you, your organisation, or your products.
+
+
+4. THIRD-PARTY COMPONENTS
+
+   The Software incorporates third-party components that are licensed to you
+   under their own terms, which are set out in full in the file
+   THIRD-PARTY-NOTICES.txt distributed with the Software.
+
+   Where those terms grant you rights broader than this Agreement grants, those
+   terms prevail as to the component concerned.
+
+
+5. COMPONENTS UNDER THE GNU LESSER GENERAL PUBLIC LICENSE
+
+   Some components of the Software are licensed under the GNU Lesser General
+   Public License. Section 2 of THIRD-PARTY-NOTICES.txt sets out where to obtain
+   their source code and how to exercise your right to modify and relink them.
+
+   Section 3.4 of this Agreement does not apply to the extent that reverse
+   engineering or debugging is necessary to exercise those rights, nor to the
+   extent that applicable law confers a right that may not be excluded by
+   contract.
+
+
+6. SOURCE CODE
+
+   The Software is proprietary. It is not open-source software. No source code
+   for the Software itself is made available, and nothing in this Agreement
+   grants you any right to it.
+
+
+7. PRIVACY
+
+   The Software converts images entirely on the local device. It does not upload
+   your images, does not transmit their contents or filenames to us or to any
+   third party, does not require an account, and functions without a network
+   connection.
+
+   The Software calls Microsoft Store services to check for application updates
+   and, where you choose to leave a rating, to submit that rating. Those calls
+   are handled by Microsoft under its own privacy terms.
+
+
+8. NO WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+   We do not warrant that the Software will be uninterrupted or error-free, that
+   it will convert any given file correctly, or that it will remain available.
+
+   YOUR ATTENTION IS DRAWN IN PARTICULAR TO THE FOLLOWING. The Software offers
+   options to delete or move original files after conversion. Those operations
+   are irreversible. You are solely responsible for maintaining backups of any
+   file you process. We recommend that you verify conversion results before
+   enabling either option on data you cannot afford to lose.
+
+
+9. LIMITATION OF LIABILITY
+
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR ANY
+   INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, NOR FOR
+   ANY LOSS OF DATA, LOSS OF PROFIT, LOSS OF BUSINESS, OR BUSINESS INTERRUPTION,
+   ARISING OUT OF OR RELATING TO THE SOFTWARE, WHETHER IN CONTRACT, TORT, OR
+   OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+   Because the Software is supplied free of charge, our total aggregate
+   liability arising out of or relating to the Software shall not exceed the
+   greater of the amount you paid for it and five United States dollars.
+
+   Nothing in this Agreement excludes or limits liability that may not lawfully
+   be excluded or limited, including liability for death or personal injury
+   caused by negligence, or for fraud.
+
+
+10. NO SUPPORT OBLIGATION
+
+    We provide no support, maintenance, updates, or service levels under this
+    Agreement. We may answer enquiries sent to heicbatchconverter@gmail.com as a
+    courtesy, but are under no obligation to do so or to do so within any period.
+
+
+11. TERM AND TERMINATION
+
+    This Agreement takes effect when you install the Software and continues
+    until terminated. It terminates automatically if you breach section 3 and
+    fail to cure the breach within 30 days of notice from us. On termination you
+    must cease using the Software and remove all copies. Sections 4, 5, 6, 8, 9,
+    and 10 survive termination.
+
+    Your right to continue using a copy of the Software already installed is not
+    affected by our ceasing to distribute the Software.
+
+
+12. CHANGES TO THIS AGREEMENT
+
+    We may issue a revised Agreement with a future version of the Software. The
+    revised Agreement governs that version and later versions only. The version
+    of the Agreement distributed with the copy you installed continues to govern
+    that copy.
+
+    Future versions may be offered under different terms, including versions
+    with paid features. This Agreement does not commit us to distributing any
+    future version free of charge.
+
+
+13. DISTRIBUTION THROUGH THE MICROSOFT STORE
+
+    Where you obtained the Software from the Microsoft Store, Microsoft's
+    Standard Application License Terms also apply to that copy as a matter of
+    Microsoft's terms. This Agreement governs the Software as between you and
+    us. Where the two conflict, whichever grants you the broader right prevails.
+
+
+14. ENTIRE AGREEMENT AND SEVERABILITY
+
+    This Agreement, together with THIRD-PARTY-NOTICES.txt, is the entire
+    agreement between you and us concerning the Software, and supersedes any
+    prior statement or representation. If any provision is held unenforceable,
+    it shall be modified to the minimum extent necessary to make it enforceable,
+    and the remaining provisions shall continue in full force.
+
+
+--------------------------------------------------------------------------------
+
+Questions about licensing, including written confirmation of the right to use
+the Software within an organisation, may be sent to:
+
+    heicbatchconverter@gmail.com
+
+Copyright (c) 2026 Alan Tao. All rights reserved.

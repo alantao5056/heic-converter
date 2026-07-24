@@ -1,0 +1,694 @@
+---
+/**
+ * Licensing page. Written primarily for IT and procurement reviewers who need
+ * to confirm commercial use before deploying the app, so the verdict and the
+ * permitted/not-permitted summary come before the full agreement text.
+ * Kept in sync with LICENSE.txt at the repository root, which is the copy
+ * shipped inside the MSIX.
+ */
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+const title = 'License & commercial use | HEIC Batch Converter';
+const description =
+  'HEIC Batch Converter is free for business use: unlimited devices, no fee, no seat count, no registration. Read the full End-User License Agreement and third-party open-source notices.';
+
+const effectiveDate = '2026-07-23';
+const effectiveLabel = '23 July 2026';
+
+const allowed = [
+  'Use inside a company, government body, school, or other organisation',
+  'Installation on unlimited devices, used by unlimited people',
+  'Deployment to company devices by an IT administrator',
+  'Commercial work, including client deliverables and paid projects',
+  'Free use of every converted image, with no attribution required',
+];
+
+const notAllowed = [
+  'Selling, renting, or sublicensing the app, or charging anyone for it',
+  'Redistributing it outside your organisation, or bundling it into another product',
+  'Modifying, reverse engineering, or decompiling it (see section 5 for the LGPL exception)',
+  'Removing copyright or third-party notices',
+  'Implying that we endorse you or your products',
+];
+
+const faq = [
+  {
+    q: 'Can HEIC Batch Converter be used for business or commercial purposes?',
+    a: 'Yes. The End-User License Agreement expressly permits use within a company, government body, educational institution, or other organisation, at no cost.',
+  },
+  {
+    q: 'Is there a licence fee, seat count, or volume agreement?',
+    a: 'No. The app is free of charge with no limit on the number of devices or users. No fee, purchase, subscription, registration, or activation key applies.',
+  },
+  {
+    q: 'Can an IT administrator deploy it across the organisation?',
+    a: 'Yes. An organisation may deploy the app to its own devices by any means Microsoft makes available for distributing Microsoft Store applications, and may install it on behalf of its personnel.',
+  },
+  {
+    q: 'Is HEIC Batch Converter open source?',
+    a: 'No. It is proprietary software distributed free of charge, and its source code is not available. It does include open-source components, which are listed in the third-party notices along with their licences.',
+  },
+  {
+    q: 'Do converted images carry any licence restriction or watermark?',
+    a: 'No. The publisher claims no right in the images the app produces. There are no watermarks, no usage limits, and no attribution requirement.',
+  },
+  {
+    q: 'Does the app upload images or require an internet connection?',
+    a: 'No. All conversion happens on the local device. The app does not upload images, does not transmit their contents or filenames, does not require an account, and works offline.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'License', item: `${SITE.url}/license/` },
+    ],
+  },
+];
+---
+
+<Base {title} {description} {schema}>
+  <article class="license">
+    <div class="container narrow">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>License</span>
+      </nav>
+
+      <p class="eyebrow">Licensing</p>
+      <h1>License &amp; commercial use</h1>
+      <p class="meta">
+        Effective <time datetime={effectiveDate}>{effectiveLabel}</time> · Applies to
+        HEIC Batch Converter version 2.1
+      </p>
+
+      <aside class="tldr">
+        <p class="tldr-label">Short answer for IT and procurement</p>
+        <p class="tldr-body">
+          <strong>Yes, you may use HEIC Batch Converter for business purposes.</strong>
+          It is free for internal use inside a company or other organisation, on an
+          unlimited number of devices, with no fee, no seat count, no registration,
+          and no separate agreement to sign. This page is the licence; you may cite
+          or archive it as written confirmation.
+        </p>
+      </aside>
+
+      <section class="perms" aria-label="Summary of permitted and prohibited use">
+        <div class="perm-col yes">
+          <h2>What you may do</h2>
+          <ul>{allowed.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div class="perm-col no">
+          <h2>What you may not do</h2>
+          <ul>{notAllowed.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </section>
+
+      <p class="note">
+        The summary above is provided for convenience. The agreement below is the
+        operative text.
+      </p>
+
+      <div class="prose">
+        <h2 id="agreement">End-User License Agreement</h2>
+
+        <p>
+          This End-User License Agreement ("Agreement") is a legal agreement between
+          you, either an individual or a single legal entity ("you"), and Alan Tao
+          ("we", "us") governing your use of the HEIC Batch Converter software
+          application, including all files distributed with it (the "Software").
+        </p>
+        <p>
+          By installing or using the Software you accept this Agreement. If you do
+          not accept it, do not install or use the Software.
+        </p>
+
+        <h3>1. License grant</h3>
+        <p>
+          We grant you a non-exclusive, worldwide, royalty-free, perpetual license to
+          install and use the Software, subject to the terms of this Agreement.
+        </p>
+        <p>
+          The Software is provided free of charge. No fee, purchase, subscription,
+          registration, activation key, or seat count applies.
+        </p>
+
+        <h3>2. Permitted use</h3>
+        <ol>
+          <li>
+            <strong>Business and commercial use is permitted.</strong> You may use
+            the Software for any lawful purpose, including internal business use
+            within a company, government body, educational institution, or other
+            organisation.
+          </li>
+          <li>
+            <strong>No limit applies to the number of devices or users.</strong> You
+            may install the Software on any number of devices that you own, operate,
+            or administer, and any number of your personnel may use it.
+          </li>
+          <li>
+            <strong>Deployment by administrators is permitted.</strong> An
+            organisation may deploy the Software to its own devices by any means made
+            available by Microsoft for the distribution of Microsoft Store
+            applications, and may install it on behalf of its personnel.
+          </li>
+          <li>
+            <strong>Output files are yours.</strong> We claim no right in, and impose
+            no restriction on, the image files the Software produces. You may use,
+            publish, and sell them freely. No attribution to us is required.
+          </li>
+          <li>
+            <strong>No reporting obligation.</strong> You need not notify us of your
+            use, and need not obtain any further permission beyond this Agreement.
+          </li>
+        </ol>
+
+        <h3>3. Restrictions</h3>
+        <p>Except as section 6 provides, you may not:</p>
+        <ol>
+          <li>
+            sell, rent, lease, lend, or sublicense the Software, or charge any third
+            party for it;
+          </li>
+          <li>
+            distribute the Software outside your own organisation, including by
+            mirroring, re-hosting, repackaging, or bundling it with another product
+            or service;
+          </li>
+          <li>
+            modify, adapt, translate, or create derivative works of the Software;
+          </li>
+          <li>reverse engineer, decompile, or disassemble the Software;</li>
+          <li>
+            remove, obscure, or alter any copyright, trademark, or other proprietary
+            notice contained in the Software, including the file
+            <code>THIRD-PARTY-NOTICES.txt</code>; or
+          </li>
+          <li>
+            use our name, logo, or trademarks in a manner that states or implies that
+            we endorse you, your organisation, or your products.
+          </li>
+        </ol>
+
+        <h3>4. Third-party components</h3>
+        <p>
+          The Software incorporates third-party components that are licensed to you
+          under their own terms, which are set out in full in the file
+          <code>THIRD-PARTY-NOTICES.txt</code>, published at
+          <a href="/third-party-notices.txt">third-party-notices.txt</a>.
+        </p>
+        <p>
+          Where those terms grant you rights broader than this Agreement grants,
+          those terms prevail as to the component concerned.
+        </p>
+
+        <h3>5. Components under the GNU Lesser General Public License</h3>
+        <p>
+          Some components of the Software are licensed under the GNU Lesser General
+          Public License. Section 2 of
+          <a href="/third-party-notices.txt">THIRD-PARTY-NOTICES.txt</a> sets out
+          where to obtain their source code and how to exercise your right to modify
+          and relink them.
+        </p>
+        <p>
+          Section 3.4 of this Agreement does not apply to the extent that reverse
+          engineering or debugging is necessary to exercise those rights, nor to the
+          extent that applicable law confers a right that may not be excluded by
+          contract.
+        </p>
+
+        <h3>6. Source code</h3>
+        <p>
+          The Software is proprietary. It is not open-source software. No source code
+          for the Software itself is made available, and nothing in this Agreement
+          grants you any right to it.
+        </p>
+
+        <h3>7. Privacy</h3>
+        <p>
+          The Software converts images entirely on the local device. It does not
+          upload your images, does not transmit their contents or filenames to us or
+          to any third party, does not require an account, and functions without a
+          network connection.
+        </p>
+        <p>
+          The Software calls Microsoft Store services to check for application
+          updates and, where you choose to leave a rating, to submit that rating.
+          Those calls are handled by Microsoft under its own privacy terms.
+        </p>
+
+        <h3>8. No warranty</h3>
+        <p class="legal-caps">
+          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+          IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+          FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+        </p>
+        <p>
+          We do not warrant that the Software will be uninterrupted or error-free,
+          that it will convert any given file correctly, or that it will remain
+          available.
+        </p>
+        <p>
+          <strong>Your attention is drawn in particular to the following.</strong> The
+          Software offers options to delete or move original files after conversion.
+          Those operations are irreversible. You are solely responsible for
+          maintaining backups of any file you process. We recommend that you verify
+          conversion results before enabling either option on data you cannot afford
+          to lose.
+        </p>
+
+        <h3>9. Limitation of liability</h3>
+        <p class="legal-caps">
+          TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR ANY
+          INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, NOR FOR
+          ANY LOSS OF DATA, LOSS OF PROFIT, LOSS OF BUSINESS, OR BUSINESS
+          INTERRUPTION, ARISING OUT OF OR RELATING TO THE SOFTWARE, WHETHER IN
+          CONTRACT, TORT, OR OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+          DAMAGES.
+        </p>
+        <p>
+          Because the Software is supplied free of charge, our total aggregate
+          liability arising out of or relating to the Software shall not exceed the
+          greater of the amount you paid for it and five United States dollars.
+        </p>
+        <p>
+          Nothing in this Agreement excludes or limits liability that may not lawfully
+          be excluded or limited, including liability for death or personal injury
+          caused by negligence, or for fraud.
+        </p>
+
+        <h3>10. No support obligation</h3>
+        <p>
+          We provide no support, maintenance, updates, or service levels under this
+          Agreement. We may answer enquiries sent to
+          <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a> as a
+          courtesy, but are under no obligation to do so or to do so within any
+          period.
+        </p>
+
+        <h3>11. Term and termination</h3>
+        <p>
+          This Agreement takes effect when you install the Software and continues
+          until terminated. It terminates automatically if you breach section 3 and
+          fail to cure the breach within 30 days of notice from us. On termination
+          you must cease using the Software and remove all copies. Sections 4, 5, 6,
+          8, 9, and 10 survive termination.
+        </p>
+        <p>
+          Your right to continue using a copy of the Software already installed is
+          not affected by our ceasing to distribute the Software.
+        </p>
+
+        <h3>12. Changes to this Agreement</h3>
+        <p>
+          We may issue a revised Agreement with a future version of the Software. The
+          revised Agreement governs that version and later versions only. The version
+          of the Agreement distributed with the copy you installed continues to govern
+          that copy.
+        </p>
+        <p>
+          Future versions may be offered under different terms, including versions
+          with paid features. This Agreement does not commit us to distributing any
+          future version free of charge.
+        </p>
+
+        <h3>13. Distribution through the Microsoft Store</h3>
+        <p>
+          Where you obtained the Software from the Microsoft Store, Microsoft's
+          Standard Application License Terms also apply to that copy as a matter of
+          Microsoft's terms. This Agreement governs the Software as between you and
+          us. Where the two conflict, whichever grants you the broader right prevails.
+        </p>
+
+        <h3>14. Entire agreement and severability</h3>
+        <p>
+          This Agreement, together with
+          <code>THIRD-PARTY-NOTICES.txt</code>, is the entire agreement between you
+          and us concerning the Software, and supersedes any prior statement or
+          representation. If any provision is held unenforceable, it shall be
+          modified to the minimum extent necessary to make it enforceable, and the
+          remaining provisions shall continue in full force.
+        </p>
+
+        <h2 id="third-party">Open-source components</h2>
+        <p>
+          The app is built on Magick.NET and ImageMagick, and ships a number of
+          open-source libraries. The complete notice, including the full text of
+          every licence and the written offer of source code for the LGPL
+          components, is published as a single file:
+        </p>
+        <p>
+          <a class="btn btn-primary" href="/third-party-notices.txt">
+            Read the full third-party notices
+          </a>
+        </p>
+        <p>
+          A summary, for reviewers who need the component inventory rather than the
+          licence texts:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Version</th>
+                <th>License</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Magick.NET</td><td>14.13.1</td><td>Apache-2.0</td></tr>
+              <tr><td>ImageMagick</td><td>7.1.2-23</td><td>ImageMagick License</td></tr>
+              <tr><td>Windows App SDK</td><td>1.8</td><td>Microsoft Software License Terms</td></tr>
+              <tr><td>libheif</td><td>1.21.2</td><td>LGPL-3.0-or-later</td></tr>
+              <tr><td>libde265</td><td>1.0.16</td><td>LGPL-3.0-or-later</td></tr>
+              <tr><td>libraw</td><td>0.22.1</td><td>LGPL-2.1</td></tr>
+              <tr><td>glib, gdk-pixbuf, fribidi, liblzma</td><td>various</td><td>LGPL-2.1-or-later</td></tr>
+              <tr><td>pango, librsvg, libcroco</td><td>various</td><td>LGPL-2.0-or-later</td></tr>
+              <tr><td>cairo</td><td>1.18.4</td><td>MPL-1.1 or LGPL-2.1</td></tr>
+              <tr><td>liblqr</td><td>0.4.2</td><td>LGPL-3.0-or-later</td></tr>
+              <tr>
+                <td>
+                  aom, brotli, libbzip2, fontconfig, freetype, harfbuzz, libhwy,
+                  imath, libjpeg-turbo, libjxl, lcms, openexr, openh264, openjpeg,
+                  openjph, libpng, pixman, libraqm, libtiff, libwebp, libxml2,
+                  libzip, zlib
+                </td>
+                <td>various</td>
+                <td>Permissive (MIT, BSD, Apache-2.0, zlib, and similar)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          HEIC Batch Converter is not a derivative work of any LGPL component. It
+          calls them only through the published interface of a separately
+          distributed shared library, using dynamic linking. Your rights to obtain,
+          modify, and relink those components are preserved and described in section
+          2 of the third-party notices.
+        </p>
+
+        <h2 id="faq">Common licensing questions</h2>
+        <div class="faq-list">
+          {faq.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <aside class="contact-box">
+        <h2>Need written confirmation?</h2>
+        <p>
+          If your procurement or compliance process needs this in another format, a
+          countersigned statement, a supplier form, or a software bill of materials,
+          write to
+          <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a> and say
+          what you need. Citing the URL of this page is usually sufficient on its own.
+        </p>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .narrow {
+    max-width: 780px;
+  }
+
+  .license {
+    padding-block: clamp(36px, 5vw, 56px) clamp(56px, 7vw, 88px);
+  }
+
+  .breadcrumb {
+    display: flex;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--ink-faint);
+    margin-bottom: 26px;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 3.8vw, 2.7rem);
+    font-weight: 750;
+  }
+
+  .meta {
+    color: var(--ink-faint);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+
+  .tldr {
+    border: 1px solid rgba(46, 134, 193, 0.3);
+    border-left: 4px solid var(--accent);
+    background: rgba(46, 134, 193, 0.06);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 32px;
+  }
+
+  .tldr-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-deep);
+    margin: 0 0 6px;
+  }
+
+  .tldr-body {
+    margin: 0;
+    font-size: 1.04rem;
+    line-height: 1.6;
+  }
+
+  .perms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .perm-col {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--paper);
+    box-shadow: var(--shadow-card);
+    padding: 20px 22px;
+  }
+
+  .perm-col h2 {
+    font-size: 1rem;
+    font-weight: 650;
+    margin-bottom: 14px;
+  }
+
+  .perm-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .perm-col li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .perm-col li::before {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .yes li::before {
+    content: '✓';
+    color: var(--c-green);
+  }
+
+  .no li::before {
+    content: '✕';
+    color: var(--c-red);
+  }
+
+  .note {
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    margin-bottom: 40px;
+  }
+
+  .note code {
+    background: var(--paper-tint);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--paper);
+    padding: 0 18px;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.97rem;
+    padding: 14px 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    color: var(--accent-deep);
+    font-size: 1.2rem;
+    font-weight: 400;
+    flex: none;
+  }
+
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .faq-item p {
+    margin: 0;
+    padding-bottom: 16px;
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+  }
+
+  .contact-box {
+    margin-top: 52px;
+    padding: 26px 28px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, var(--navy-900), var(--navy-800));
+    color: rgba(223, 234, 246, 0.85);
+  }
+
+  .contact-box h2 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .contact-box p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .contact-box a {
+    color: var(--accent-bright);
+  }
+
+  @media (max-width: 640px) {
+    .perms {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<style is:global>
+  /* The agreement body reuses the article prose rules; these are the additions
+     specific to legal copy. */
+  .license .prose h2 {
+    font-size: 1.5rem;
+    margin-top: 2.4em;
+    padding-top: 1.4em;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .license .prose h3 {
+    font-size: 1.08rem;
+    margin-top: 1.9em;
+  }
+
+  .license .prose ol {
+    padding-left: 1.4em;
+    margin: 0 0 1.2em;
+  }
+
+  .license .prose li {
+    margin-bottom: 0.55em;
+  }
+
+  .license .prose li::marker {
+    color: var(--accent-deep);
+  }
+
+  .license .prose code {
+    background: var(--paper-tint);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.88em;
+  }
+
+  .license .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 1.2em 0 1.6em;
+  }
+
+  .license .prose .table-wrap {
+    overflow-x: auto;
+  }
+
+  .license .prose th,
+  .license .prose td {
+    border: 1px solid var(--border);
+    padding: 9px 13px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .license .prose th {
+    background: var(--paper-tint);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .license .prose .legal-caps {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+</style>
