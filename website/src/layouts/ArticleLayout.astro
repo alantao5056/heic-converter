@@ -321,12 +321,33 @@ if (howto) {
     color: var(--ink-soft);
   }
 
-  .prose code {
+  /* Inline code only. Must not touch code inside <pre>, where Shiki paints its
+     own dark background and the light tint would render the tokens unreadable. */
+  .prose :not(pre) > code {
     background: var(--paper-tint);
     border: 1px solid var(--border-soft);
     border-radius: 4px;
     padding: 0.1em 0.4em;
     font-size: 0.88em;
+  }
+
+  .prose pre {
+    margin: 1.4em 0;
+    padding: 16px 18px;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .prose pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+    /* Keep commands intact; the block scrolls instead of wrapping mid-flag. */
+    white-space: pre;
   }
 
   .prose .table-wrap,
