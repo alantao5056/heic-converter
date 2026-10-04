@@ -1,0 +1,10 @@
+[Dd]ebug/
+[Rr]elease/
+.vs/
+bin/
+packages/
+**/obj
+*.user
+*.cache
+**/AppPackages/
+**/BundleArtifacts

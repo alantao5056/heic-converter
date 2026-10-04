@@ -1,0 +1,38 @@
+Privacy Policy
+Last Updated: February 11, 2026
+
+1. Introduction
+This Privacy Policy governs the manner in which Alan Tao ("we", "us", or "our") collects, uses, maintains, and discloses information collected from users (each, a "User") of the HEIC to JPG batch converter application (the "App").
+
+We are committed to protecting your privacy. This policy explains how your data is handled when you use the App on Windows.
+
+2. Personal Information
+We do not collect, transmit, store, or share any personally identifiable information (PII) such as your name, address, phone number, email address, or location data. You do not need to create an account to use the App.
+
+3. File Handling and Data Security
+The primary purpose of the App is to convert image files (HEIC to JPG). Regarding your files:
+
+Local Processing Only: All image conversion and file processing are performed entirely locally on your device.
+
+No Cloud Uploads: Your photos and files are never uploaded to our servers or any third-party cloud services.
+
+No Data Retention: We do not retain copies of your files. The App only accesses the files you specifically select for conversion and writes the converted files to the destination folder you choose.
+
+4. Application Permissions
+To function correctly, the App requires permission to access the file system of your Windows device.
+
+File Access: We request access to your files solely to read the input HEIC images and save the output JPG images. We do not access any other files on your system outside of this specific scope.
+
+5. Third-Party Services
+The App does not integrate with third-party advertising networks or third-party analytics services that track your usage behavior.
+
+6. Children’s Privacy
+The App does not knowingly collect or solicit personal information from anyone under the age of 13. As the App operates offline and collects no data, it is safe for use by all ages.
+
+7. Changes to This Privacy Policy
+We have the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the top of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect.
+
+8. Contacting Us
+If you have any questions about this Privacy Policy, the practices of this App, or your dealings with this App, please contact us at:
+
+Email: heictojpgbatchconverter@outlook.com
