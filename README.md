@@ -1,7 +1,9 @@
 # HEIC Batch Converter
 
+**[Get it from the Microsoft Store](https://apps.microsoft.com/detail/9pmm2c5ch29k)** | **[Website](https://heicbatchconverter.alantao.com/)**
+
 ## Project Overview
-HEIC Batch Converter is a Windows desktop application designed for batch converting HEIC image files to common formats. It features a clean, flat UI design that prioritizes clarity and efficiency, allowing users to easily manage source and target folders, configure conversion settings, and track conversion progress.
+HEIC Batch Converter is a Windows desktop application designed for batch converting HEIC image files to common formats. It features a clean, flat UI design that prioritizes clarity and efficiency, allowing users to easily manage source and target folders, configure conversion settings, and track conversion progress. It is free on the [Microsoft Store](https://apps.microsoft.com/detail/9pmm2c5ch29k); guides and the FAQ are on the [website](https://heicbatchconverter.alantao.com/).
 
 ## Features
 - **Batch Conversion**: Efficiently convert multiple HEIC files at once.
@@ -13,6 +15,9 @@ HEIC Batch Converter is a Windows desktop application designed for batch convert
   - Define original file handling (Keep, Delete, Move to a specific folder).
 - **Remembered Settings**: Window size and position, along with all conversion settings, are saved on exit and restored on the next launch.
 - **Clear Progress Tracking**: View conversion progress, success, and failure stats directly in the application's clean workspace.
+
+## Installation
+Most users should install the app from the [Microsoft Store](https://apps.microsoft.com/detail/9pmm2c5ch29k). It is free and updates automatically. The sections below are only needed to build from source.
 
 ## Prerequisites
 To build and run this application, you will need:
@@ -48,5 +53,5 @@ The user interface design mockups, layout specifications, and interactive behavi
 ## Repository Structure
 - `src/App`: the current WinUI 3 application.
 - `docs/`: UI design specs, logos, posters, and Microsoft Store listing material.
-- `website/`: the Astro static site for the app. See [website/README.md](website/README.md).
+- `website/`: the Astro static site for the app, published at [heicbatchconverter.alantao.com](https://heicbatchconverter.alantao.com/). See [website/README.md](website/README.md).
 - `legacy/v1`: source code of the early 1.x versions, kept for reference.

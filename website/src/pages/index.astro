@@ -93,12 +93,13 @@ const faqs = [
 
 /*
  * Real user reviews pulled verbatim from the Microsoft Store product page
- * (API: apps.microsoft.com/api/Products/GetReviews/9pmm2c5ch29k, 2026-07-08).
+ * (API: apps.microsoft.com/api/Products/GetReviews/9pmm2c5ch29k?gl=US&hl=en-US, 2026-10-03).
  * Refresh the aggregate numbers and quotes from the same endpoint over time.
+ * `text` is optional: some Store reviews have a title only.
  */
-const reviewStats = { average: 4.5, count: 24 };
+const reviewStats = { average: 4.8, count: 60 };
 
-const reviews = [
+const reviews: { title: string; text?: string; name: string; date: string }[] = [
   {
     title: 'Thank you for making this!!',
     text: 'It works great and can load batches for free!!!',
@@ -106,16 +107,16 @@ const reviews = [
     date: 'July 2026',
   },
   {
-    title: 'Fantastic',
-    text: 'Does exactly what it should, quickly and easily.',
-    name: 'Anne',
-    date: 'June 2026',
+    title: 'Flawless!',
+    text: 'Converted over 200 files across a network drive in multiple folders. Flawless!!',
+    name: 'Michael',
+    date: 'July 2026',
   },
   {
-    title: 'Just what I needed!',
-    text: 'When all my camera photos got created at HEIC file, I thought I was in trouble until I found this converter! Thank goodness it works easily and consistently!',
-    name: 'Rhonda',
-    date: 'June 2026',
+    title: 'Great tool',
+    text: 'This is a fast and efficient tool to batch convert HEIC to JPG, PNG, GIF, or BMP. It solves a problem I have struggled with and there is no extra fees or charges. Love it!',
+    name: 'jorge',
+    date: 'August 2026',
   },
   {
     title: 'Amazing',
@@ -130,10 +131,10 @@ const reviews = [
     date: 'June 2026',
   },
   {
-    title: 'Time Saver',
-    text: 'Save me 1 hour!!!',
-    name: 'Kathy',
-    date: 'June 2026',
+    title: 'Love this converter!',
+    text: 'Super fast bulk iPhone to JPG converter (converts bulk folders) a must have for faster editing of pics!',
+    name: 'Jeff',
+    date: 'July 2026',
   },
 ];
 
@@ -220,6 +221,18 @@ const formatChips = [
           <StoreBadge size="large" />
           <a class="btn btn-ghost-dark" href="#how-it-works">See how it works</a>
         </div>
+        <a
+          class="hero-rating"
+          href="#reviews"
+          aria-label={`Rated ${reviewStats.average} out of 5 from ${reviewStats.count} ratings on the Microsoft Store`}
+        >
+          <span class="stars" style={`--fill: ${(reviewStats.average / 5) * 100}%`} aria-hidden="true">
+            <span class="stars-empty">★★★★★</span>
+            <span class="stars-fill">★★★★★</span>
+          </span>
+          <strong aria-hidden="true">{reviewStats.average}/5</strong>
+          <span aria-hidden="true">{reviewStats.count} ratings on the Microsoft Store</span>
+        </a>
         <ul class="trust-row" aria-label="Highlights">
           <li>Free</li>
           <li>100% offline</li>
@@ -326,7 +339,7 @@ const formatChips = [
               <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
               <strong>{r.title}</strong>
             </figcaption>
-            <blockquote>{r.text}</blockquote>
+            {r.text && <blockquote>{r.text}</blockquote>}
             <p class="review-meta">{r.name} · {r.date}</p>
           </figure>
         ))}
@@ -450,12 +463,46 @@ const formatChips = [
     flex-wrap: wrap;
     align-items: stretch;
     gap: 16px;
-    margin-bottom: 26px;
+    margin-bottom: 14px;
   }
 
   /* Match the ghost button's height to the Store badge next to it */
   .hero-actions .btn-ghost-dark {
     padding-block: 0;
+  }
+
+  /* Store rating, tucked under the badge; links down to the reviews */
+  .hero-rating {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-bottom: 22px;
+    font-size: 0.9rem;
+    color: rgba(223, 234, 246, 0.65);
+  }
+
+  .hero-rating:hover {
+    text-decoration: none;
+    color: rgba(223, 234, 246, 0.9);
+  }
+
+  .hero-rating strong {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .hero-rating .stars {
+    font-size: 1.1rem;
+  }
+
+  .hero-rating .stars-empty {
+    color: rgba(223, 234, 246, 0.25);
+  }
+
+  .hero-rating .stars-fill {
+    color: var(--c-orange);
   }
 
   .trust-row {
@@ -716,7 +763,8 @@ const formatChips = [
   }
 
   .review-meta {
-    margin: 14px 0 0;
+    margin: auto 0 0;
+    padding-top: 14px;
     font-size: 0.85rem;
     color: var(--ink-faint);
   }
